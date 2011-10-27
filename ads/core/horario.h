@@ -5,7 +5,13 @@
  *      Author: caiotoon
  */
 
+#ifndef _HORARIO_H
+#define _HORARIO_H
+
+
+
 #include "disciplina.h"
+#include <time.h>
 
 /*
  * Toda função que retornar um horário deve associar a disciplina ao horário ou colocar um
@@ -17,8 +23,8 @@ struct Horario {
 	char codigo[2];
 	char diaSemana[3];
 	Disciplina disciplina;
-	int horaInicial;
-	int horaFinal;
+	time_t horaInicial;
+	time_t horaFinal;
 
 };
 
@@ -48,3 +54,8 @@ int horaAssociarDisciplina( int codHorario, int codDisciplina );
  * Um ponteiro nulo será retornado caso não seja possível encontrar este horário.
  */
 Horario *horaPegar( char diaSemana[3], int horario );
+
+
+
+
+#endif

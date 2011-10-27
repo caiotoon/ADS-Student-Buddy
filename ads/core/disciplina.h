@@ -5,6 +5,11 @@
  *      Author: caiotoon
  */
 
+#ifndef _DISCIPLINA_H
+#define _DISCIPLINA_H
+
+
+
 struct Disciplina {
 
 	int codigo;
@@ -54,3 +59,7 @@ Disciplina *discListar( int *qtde );
  * diferente de 0 no caso de erros.
  */
 int discRemover( int codigo );
+
+
+
+#endif

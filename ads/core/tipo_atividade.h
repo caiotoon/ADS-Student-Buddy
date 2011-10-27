@@ -2,6 +2,11 @@
  * tipo_atividade.h
  */
 
+#ifndef TIPO_ATIVIDADE_H
+#define TIPO_ATIVIDADE_H
+
+
+
 struct TipoAtividade {
 
 	char codigo[2];
@@ -19,3 +24,8 @@ typedef struct TipoAtividade TipoAtividade;
  * algum erro.
  */
 TipoAtividade *tipoListar( int *qtde );
+
+
+
+
+#endif

@@ -2,15 +2,21 @@
  * atividade.h
  *
  *  Created on: Oct 26, 2011
- *      Author: caiotoon
+ *      Author: caiotoAdicaoon
  */
+
+#ifndef _ATIVIDADE_H
+#define _ATIVIDADE_H
+
+
+#include <time.h>
 
 struct Atividade {
 
 	int codigo;
 	char *titulo;
 	char *descricao;
-	int data;
+	time_t data;
 	float pontos;
 
 	char tipoAtividade[2];
@@ -59,3 +65,7 @@ Atividade *ativListar( int dataInicial, int dataFinal, int *qtde );
  * diferente de 0 no caso de erros.
  */
 int ativRemover( int codAtividade );
+
+
+
+#endif
