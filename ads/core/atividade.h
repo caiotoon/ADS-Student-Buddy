@@ -1,0 +1,61 @@
+/*
+ * atividade.h
+ *
+ *  Created on: Oct 26, 2011
+ *      Author: caiotoon
+ */
+
+struct Atividade {
+
+	int codigo;
+	char *titulo;
+	char *descricao;
+	int data;
+	float pontos;
+
+	char tipoAtividade[2];
+	int disciplina;
+
+};
+
+typedef struct Atividade Atividade;
+
+
+
+
+/*
+ * Adiciona uma nova atividade no banco e preenche o ID da atividade apontada.
+ * Retorna 0 se nenhum erro ocorrer e algum número diferente disso.
+ */
+int ativAdicionar( Atividade *atividade );
+
+
+/*
+ * Atualiza uma entidade no banco de dados. Todas as informações serão alteradas no banco.
+ * Retorna 0 se nenhum erro ocorrer e um valor diferente deste no caso contrário.
+ */
+int ativAtualizar( const Atividade *atividade );
+
+
+/*
+ * Procura no banco a atividade que possui o ID informado e retorna um ponteiro para a entidade
+ * recuperada. Caso uma atividade não seja encontrada com este ID, um ponteiro nulo será retornado.
+ */
+Atividade *ativPegar( int codAtividade );
+
+
+/*
+ * Consulta todas as atividades compreendidas em ume escopo de datas.
+ *
+ * Retornará um ponteiro para um vetor de atividades e colocará no ponteiro informado por
+ * [qtde] o número de atividades neste vetor. Um ponteiro nulo será retornado caso ocorra
+ * algum erro.
+ */
+Atividade *ativListar( int dataInicial, int dataFinal, int *qtde );
+
+
+/*
+ * Remove uma atividade do banco de dados e retorna 0 se nenhum erro ocorrer. Retorna um valor
+ * diferente de 0 no caso de erros.
+ */
+int ativRemover( int codAtividade );
