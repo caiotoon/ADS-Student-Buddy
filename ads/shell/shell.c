@@ -6,8 +6,10 @@
 
 #include "parser.h"
 #include "docs.h"
+#include "../lib/sqlite3.h"
 #include "../lib/utils.h"
 #include "../core/horario.h"
+#include "../core/database.h"
 
 
 extern const char ACOES[];
