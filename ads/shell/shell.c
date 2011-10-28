@@ -18,7 +18,7 @@ extern const EAcao AC_VALIDAS_ATIVIDADE[];
 extern const EAcao AC_VALIDAS_DISCIPLINA[];
 extern const EAcao AC_VALIDAS_TIPO_ATIV[];
 extern const EAcao AC_VALIDAS_HORARIO[];
-
+ pra
 /*
  * Ponto de entrada do programa.
  *

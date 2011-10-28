@@ -5,6 +5,7 @@
 #ifndef PARSER_CONSULTA_H_
 #define PARSER_CONSULTA_H_
 
+#include <time.h>
 
 /*
  * Interpreta o comando e consulta e escreve as datas iniciais e finais nos ponteiros informados como parâmetros.
