@@ -1,8 +1,5 @@
 /*
  * atividade.h
- *
- *  Created on: Oct 26, 2011
- *      Author: caiotoAdicaoon
  */
 
 #ifndef _ATIVIDADE_H

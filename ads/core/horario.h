@@ -1,8 +1,5 @@
 /*
  * horario.h
- *
- *  Created on: Oct 26, 2011
- *      Author: caiotoon
  */
 
 #ifndef _HORARIO_H

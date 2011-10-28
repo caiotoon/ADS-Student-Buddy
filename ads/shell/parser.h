@@ -1,10 +1,11 @@
 
-#ifndef __PARSER_H
-#define __PARSER_H
 
 /*
  * interpretador.h
  */
+
+#ifndef __PARSER_H
+#define __PARSER_H
 
 
 /*
@@ -48,6 +49,42 @@ EComando lerComando( char *name );
  * A lista de açoes permitidas será finalizada com o número -1.
  */
 EAcao parseAcao( int argc, char **argv, const EAcao acoesPermitidas[] );
+
+
+/*
+ * Executa um comando de atividade.
+ */
+void execComandoAtiv( int argc, char **argv, EAcao );
+
+
+/*
+ * Executa um comando de horário.
+ */
+void execComandoHora( int argc, char **argv, EAcao acao );
+
+
+/*
+ * Executa um comando de tipo de atividade.
+ */
+void execComandoTipo( int argc, char **argv, EAcao acao );
+
+
+/*
+ * Executa um comando de disciplina.
+ */
+void execComandoDisc( int argc, char **argv, EAcao acao );
+
+
+/*
+ * Executa o comando de ajuda.
+ */
+void execComandoAjuda( int argc, char **argv, EAcao acao );
+
+
+/*
+ * Executa um comando de consulta.
+ */
+void execComandoConsulta( int argc, char **argv, EAcao acao );
 
 
 #endif

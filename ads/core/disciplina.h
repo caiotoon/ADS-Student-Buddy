@@ -1,8 +1,5 @@
 /*
  * disciplina.h
- *
- *  Created on: Oct 26, 2011
- *      Author: caiotoon
  */
 
 #ifndef _DISCIPLINA_H

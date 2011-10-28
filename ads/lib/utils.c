@@ -1,8 +1,5 @@
 /*
  * utils.c
- *
- *  Created on: Oct 26, 2011
- *      Author: caiotoon
  */
 
 #include <ctype.h>

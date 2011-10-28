@@ -2,6 +2,10 @@
  * docs.h
  */
 
+#ifndef _DOCS_H
+#define _DOCS_H
+
+
 enum DocErro {
 	ERR_SEM_COMANDO,
 	ERR_SEM_ACAO,
@@ -31,3 +35,4 @@ void escreverDoc();
 void escreverErro( EDocErro erro, char *args[] );
 
 
+#endif
