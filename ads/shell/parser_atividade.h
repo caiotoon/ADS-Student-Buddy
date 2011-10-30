@@ -19,7 +19,7 @@ Atividade *parseAtivAdicionar( int argc, char **argv );
 
 
 
-/**
+/*
  * Realiza a interpretação de edição de uma atividade e retorna um ponteiro para
  * a atividade.
  *
