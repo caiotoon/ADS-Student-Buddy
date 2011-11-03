@@ -30,11 +30,17 @@ typedef struct Horario Horario;
 
 
 /*
- * Retornará um ponteiro para um vetor de horários e colocará no ponteiro informado por
- * [qtde] o número de horários neste vetor. Um ponteiro nulo será retornado caso ocorra
- * algum erro.
+ * Retornará um ponteiro para um vetor de horários finalizado por um ponteiro nulo. Um ponteiro nulo será retornado
+ * caso ocorra algum erro.
  */
-Horario *horaListar( int *qtde );
+Horario **horaListar();
+
+
+/*
+ * Extrai um resultado de um resultset para um objeto apontado por "target".
+ * Espera-se que a ordem das colunas seja conhecida por esta função.
+ */
+static int horaExtrair(void *target, void **columnsData);
 
 
 /*

@@ -9,7 +9,7 @@
 #include "../lib/sqlite3.h"
 #include "../lib/utils.h"
 #include "../core/horario.h"
-#include "../core/database.h"
+#include "../core/tipo_atividade.h"
 
 
 extern const char ACOES[];
@@ -78,6 +78,21 @@ int main(int argc, char **argv) {
 
 
 	printf("Ação: -%c\n", ACOES[acao]);
+
+	int a;
+	TipoAtividade **atividades, **ptr;
+	TipoAtividade *curr;
+	atividades = tipoListar(&a);
+
+	for( ptr = atividades; *ptr; *ptr++ ) {
+
+		curr = *ptr;
+		printf(":: [%s] %s\n", curr->codigo, curr->descricao);
+
+	}
+
+	db_listFree(atividades);
+	printf("Fim.");
 
 	return EXIT_SUCCESS;
 

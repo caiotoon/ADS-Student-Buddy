@@ -17,14 +17,18 @@ struct TipoAtividade {
 typedef struct TipoAtividade TipoAtividade;
 
 
+/*
+ * Retornará um ponteiro para um vetor de tipos de atividades finalizado com um ponteiro nulo.
+ * Um ponteiro nulo será retornado caso ocorra algum erro.
+ */
+TipoAtividade **tipoListar();
+
 
 /*
- * Retornará um ponteiro para um vetor de tipos de atividades e colocará no ponteiro informado por
- * [qtde] o número de tipos de atividades neste vetor. Um ponteiro nulo será retornado caso ocorra
- * algum erro.
+ * Extrai um resultado de um resultset para um objeto apontado por "target".
+ * Espera-se que a ordem das colunas seja conhecida por esta função.
  */
-TipoAtividade *tipoListar( int *qtde );
-
+static int tipoExtrair(void *target, void **columnsData);
 
 
 

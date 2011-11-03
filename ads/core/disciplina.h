@@ -44,11 +44,17 @@ Disciplina *discPegar( int codigo );
 
 
 /*
- * Retornará um ponteiro para um vetor de disciplinas e colocará no ponteiro informado por
- * [qtde] o número de disciplinas neste vetor. Um ponteiro nulo será retornado caso ocorra
- * algum erro.
+ * Retornará um ponteiro para um vetor de disciplinas finalizado por um ponteiro nulo. Um ponteiro
+ * nulo será retornado caso ocorra algum erro.
  */
-Disciplina *discListar( int *qtde );
+Disciplina **discListar();
+
+
+/*
+ * Extrai um resultado de um resultset para um objeto apontado por "target".
+ * Espera-se que a ordem das colunas seja conhecida por esta função.
+ */
+static int discExtrair(void *target, void **columnsData);
 
 
 /*
@@ -56,7 +62,6 @@ Disciplina *discListar( int *qtde );
  * diferente de 0 no caso de erros.
  */
 int discRemover( int codigo );
-
 
 
 #endif

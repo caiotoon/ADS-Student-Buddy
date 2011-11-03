@@ -50,11 +50,17 @@ Atividade *ativPegar( int codAtividade );
 /*
  * Consulta todas as atividades compreendidas em ume escopo de datas.
  *
- * Retornará um ponteiro para um vetor de atividades e colocará no ponteiro informado por
- * [qtde] o número de atividades neste vetor. Um ponteiro nulo será retornado caso ocorra
- * algum erro.
+ * Retornará um ponteiro para um vetor de atividades finalizado por um ponteiro nulo. Um ponteiro
+ * nulo será retornado caso ocorra algum erro.
  */
-Atividade *ativListar( int dataInicial, int dataFinal, int *qtde );
+Atividade **ativListar( int dataInicial, int dataFinal );
+
+
+/*
+ * Extrai um resultado de um resultset para um objeto apontado por "target".
+ * Espera-se que a ordem das colunas seja conhecida por esta função.
+ */
+static int ativExtrair(void *target, void **columnsData);
 
 
 /*
