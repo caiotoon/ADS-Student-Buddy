@@ -14,7 +14,7 @@ struct _DataBuffer {
 
 	int length;							// a quantidade de itens no array de elementos.
 	void **elements;					// um ponteiros para os ponteiros dos elementos.
-	void *typeSample; 					// um ponteiro para um elemento válido do tipo.
+	size_t typeSize; 					// O tamanho das estruturas de retorno em bytes.
 	int (*extractor)(void *, void **);	// a função utilizada para extrair um resultado de um callback.
 										// É esperado que a função conheça a ordem das colunas do
 										// resultado. Retorna 0 se a extração ocorrer com sucesso.
@@ -57,13 +57,13 @@ int db_query(void *link, sqlite3_callback callback, char *sql);
  * items. Os itens são extraídos através da função "extraction". Um ponteiro nulo será retornado
  * caso ocorra algum erro. O array de itens será finalizado com um ponteiro nulo.
  *
- * typeSample	Passa um ponteiro para um objeto válido que definirá o tipo dos objetos do array
+ * typeSize		Passa o tamanho do objeto que definirá o tipo dos objetos do array
  * 				de retorno.
  * extractor	função utilizada para extrair um conteúdo de uma linha do ResultSet.
  * 				O extrator é suposto a conhecer a estrutura do resultado.
  * sql			SQL que será realizada no banco para trazer os resultados.
  */
-void **db_list( void *typeSample, int (*extractor)(void *, void **), char *sql );
+void **db_list( size_t typeSize, int (*extractor)(void *, void **), char *sql );
 
 
 /*

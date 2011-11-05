@@ -15,17 +15,17 @@
  * ponteiro nulo como [disciplina] para indicar que não há disciplina associada a este horário.
  */
 
-struct Horario {
+struct _Horario {
 
-	char codigo[2];
+	int codigo;
 	char diaSemana[3];
-	Disciplina disciplina;
+	Disciplina *disciplina;
 	time_t horaInicial;
 	time_t horaFinal;
 
 };
 
-typedef struct Horario Horario;
+typedef struct _Horario Horario;
 
 
 
@@ -33,7 +33,7 @@ typedef struct Horario Horario;
  * Retornará um ponteiro para um vetor de horários finalizado por um ponteiro nulo. Um ponteiro nulo será retornado
  * caso ocorra algum erro.
  */
-Horario **horaListar();
+Horario **horaListar(void);
 
 
 /*

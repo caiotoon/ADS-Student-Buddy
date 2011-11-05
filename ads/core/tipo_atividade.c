@@ -2,19 +2,18 @@
  * tipo_atividade.c
  */
 
-#include <string.h>
+#include <strings.h>
 #include "tipo_atividade.h"
 #include "database.h"
 
 
 /*
- * Retornará um ponteiro para um vetor de tipos de atividades, finalizado com um ponteiro nulo.
+ * Retornará um ponteiro para um vetor de ti>pos de atividades, finalizado com um ponteiro nulo.
  * Um ponteiro nulo será retornado caso ocorra algum erro.
  */
 TipoAtividade **tipoListar() {
 
-	TipoAtividade sample;
-	return (TipoAtividade **) db_list(&sample, tipoExtrair, "SELECT * FROM tipo_atividade");
+	return (TipoAtividade **) db_list(sizeof(TipoAtividade), tipoExtrair, "SELECT * FROM tipo_atividade");
 
 }
 
@@ -28,7 +27,7 @@ static int tipoExtrair(void *target, void **columnsData) {
 	TipoAtividade *tipo = (TipoAtividade *) target;
 
 	strcpy(tipo->codigo, columnsData[0]);
-	tipo->descricao = malloc(sizeof(strlen(columnsData[1])));
+	tipo->descricao = malloc(sizeof(char)*(strlen(columnsData[1])+1));
 	strcpy(tipo->descricao, columnsData[1]);
 
 	return 0;

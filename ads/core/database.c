@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <malloc.h>
 #include "../lib/sqlite3.h"
 #include "database.h"
 
@@ -69,7 +70,7 @@ static void db_init( char *path ) {
  */
 int db_query(void *link, sqlite3_callback xCallback, char *sql) {
 
-	char *errMsg = 0;
+	char *errMsg = NULL;
 	int rc;
 
 	rc = sqlite3_exec(db_connect(), sql, xCallback, link, &errMsg);
@@ -93,7 +94,7 @@ static int db_callback( void *extractor, int argc, char **argv, char **cols ) {
 	void *data;
 
 	// Aloca memória para o objeto da linha.
-	data = malloc(sizeof(*buffer->typeSample));
+	data = malloc(buffer->typeSize);
 
 	if( data == NULL ) {
 		fprintf(stderr, "Não foi possível alocar memória.");
@@ -107,10 +108,10 @@ static int db_callback( void *extractor, int argc, char **argv, char **cols ) {
 
 	// Verifica a inicialização do array e aloca a memória ou redimensiona-a.
 	if( buffer->length == 0 )
-		buffer->elements = malloc(sizeof(buffer->typeSample));
+		buffer->elements = malloc(sizeof(void *));
 
 	else
-		buffer->elements = realloc(buffer->elements, sizeof(buffer->typeSample) * buffer->length);
+		buffer->elements = (void **) realloc(buffer->elements, sizeof(void *) * (buffer->length+1));
 
 	// Adiciona o elemento no array.
 	buffer->elements[buffer->length] = data;
@@ -134,19 +135,22 @@ static int db_callback( void *extractor, int argc, char **argv, char **cols ) {
  * 				O extrator é suposto a conhecer a estrutura do resultado.
  * sql			SQL que será realizada no banco para trazer os resultados.
  */
-void **db_list( void *typeSample, int (*extractor)(void *, void **), char *sql ) {
+void **db_list( size_t typeSize, int (*extractor)(void *, void **), char *sql ) {
 
 	DataBuffer data;
 
 	data.length = 0;
-	data.typeSample = typeSample;
+	data.typeSize = typeSize;
 	data.extractor = extractor;
 
 	if( db_query(&data, db_callback, sql) != SQLITE_OK )
 		printf("Erro de chamada.\n");
 
+	if( data.length == 0 )
+		data.elements = malloc(sizeof(NULL));
 
-	data.elements[++data.length] = NULL;
+	data.elements[data.length++] = malloc(sizeof(NULL));
+	data.elements[data.length-1] = NULL;
 	return data.elements;
 
 }
@@ -159,11 +163,14 @@ void **db_list( void *typeSample, int (*extractor)(void *, void **), char *sql )
  */
 int db_listFree( void **list ) {
 
-	void *ptr = *list;
+	void **ptr = list;
 
-	while(ptr)
-		free(ptr++);
+	while(*ptr) {
+		free(*ptr);
+		ptr++;
+	}
 
+	free(*ptr);
 	free(list);
 
 

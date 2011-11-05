@@ -7,7 +7,7 @@
 
 
 
-struct Disciplina {
+struct _Disciplina {
 
 	int codigo;
 	char *nome;
@@ -16,7 +16,7 @@ struct Disciplina {
 
 };
 
-typedef struct Disciplina Disciplina;
+typedef struct _Disciplina Disciplina;
 
 
 
@@ -47,7 +47,7 @@ Disciplina *discPegar( int codigo );
  * Retornará um ponteiro para um vetor de disciplinas finalizado por um ponteiro nulo. Um ponteiro
  * nulo será retornado caso ocorra algum erro.
  */
-Disciplina **discListar();
+Disciplina **discListar( void );
 
 
 /*

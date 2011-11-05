@@ -75,3 +75,57 @@ EAcao parseAcao( int argc, char **argv, const EAcao acoesPermitidas[] ) {
 	return AC_EDITAR;
 
 }
+
+
+void parse(int argc, char **argv) {
+
+	EComando com;
+	EAcao acao;
+
+
+	if( argc < 2 )
+		escreverErro( ERR_SEM_COMANDO, NULL );
+
+	// Identifica o comando.
+	com = lerComando(argv[1]);
+
+	if( com != COM_CONSULTA && argc < 3 )
+		escreverErro( ERR_SEM_ACAO, NULL );
+
+
+	switch( com ) {
+
+		case COM_DISCIPLINA:
+			puts("Comando de disciplina.");
+			acao = parseAcao(argc, argv, AC_VALIDAS_DISCIPLINA);
+			break;
+
+		case COM_HORARIO:
+			puts("Comando de horário.");
+			acao = parseAcao(argc, argv, AC_VALIDAS_HORARIO);
+			break;
+
+		case COM_ATIVIDADE:
+			puts("Comando de atividade.");
+			acao = parseAcao(argc, argv, AC_VALIDAS_ATIVIDADE);
+			break;
+
+		case COM_TIPO_ATIVIDADE:
+			puts("Comando de tipos de atividades.");
+			acao = parseAcao(argc, argv, AC_VALIDAS_TIPO_ATIV);
+			break;
+
+		case COM_CONSULTA:
+			puts("Comando de consulta.");
+			//acao = parseAcao(argc, argv, AC_VALIDAS_TIPO_ATIV);
+			acao = AC_LISTAR;
+			break;
+
+		case COM_AJUDA:
+			puts("Comando de ajuda.");
+			acao = AC_LISTAR;
+			break;
+
+	}
+
+}

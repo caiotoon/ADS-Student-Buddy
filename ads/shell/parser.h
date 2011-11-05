@@ -36,6 +36,12 @@ enum Acao {
 typedef enum Acao EAcao;
 
 
+/*
+ * Inicia a interpretação do comando.
+ */
+void parse(int argc, char **argv);
+
+
 /**
  * Lê o comando e retorna o comando adequado.
  */
