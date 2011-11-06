@@ -5,14 +5,22 @@
 #ifndef _UTILS_H
 #define _UTILS_H
 
-struct GenericArray {
+#ifndef TRUE
+	#define TRUE 1
+#endif /* TRUE */
+
+#ifndef FALSE
+	#define FALSE 0
+#endif /* FALSE */
+
+struct _GenericArray {
 
 	int length;
 	void **elements;
 
 };
 
-typedef struct GenericArray GenericArray;
+typedef struct _GenericArray GenericArray;
 
 
 /*

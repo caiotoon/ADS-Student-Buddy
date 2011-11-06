@@ -25,9 +25,10 @@ int main(int argc, char **argv) {
 //	setHorarios();
 //	exit(0);
 
-	traceAllAtivs();
-	traceAllDiscs();
-	traceAllHorarios();
+//	traceAllAtivs();
+//	traceAllDiscs();
+//	traceAllHorarios();
+	testHorarios(FALSE);
 
 	return EXIT_SUCCESS;
 

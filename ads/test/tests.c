@@ -18,6 +18,7 @@ void setHorarios(void);
 void traceAllAtivs(void);
 void traceAllDiscs(void);
 void traceAllHorarios(void);
+void testHorarios(int update);
 
 
 
@@ -138,5 +139,17 @@ static void traceDisc(Disciplina *disc) {
 		printf("%d - %s (%s, %s)\n", disc->codigo, disc->nome, disc->professor, disc->email);
 	else
 		printf("NULL\n");
+
+}
+
+
+void testHorarios(int update) {
+
+	if( update )
+		setHorarios();
+
+	//horaAssociarDisciplina(2, 1);
+	horaAssociarDisciplina(1, NULL);
+	traceAllHorarios();
 
 }

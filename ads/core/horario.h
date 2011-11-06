@@ -45,6 +45,9 @@ static int horaExtrair(void *target, void **columnsData);
 
 /*
  * Associa uma disciplina à um determinado horário e retorna 0 se nenhum erro ocorrer.
+ *
+ * Caso seja informado 0 como código da disciplina a associação atual do horário será
+ * desfeita. Não existe verificação antes de alterar o conteúdo.
  */
 int horaAssociarDisciplina( int codHorario, int codDisciplina );
 
@@ -56,9 +59,15 @@ int horaAssociarDisciplina( int codHorario, int codDisciplina );
  *
  * Um ponteiro nulo será retornado caso não seja possível encontrar este horário.
  */
-Horario *horaPegar( char diaSemana[3], int horario );
+Horario *horaPegar( const char diaSemana[4], int horario );
 
 
+/*
+ * Escreve a hora no formato HH:MM. Se um "destino" for apontado, o resultado será
+ * escrito neste ponteiro. Caso contrário, a memória será alocada dinamicamente e
+ * deve ser liberada pelo código que realizar a chamada.
+ */
+char *horaEscreverHora( const time_t horaUnix, char *destino );
 
 
 #endif
