@@ -53,3 +53,27 @@ static int discExtrair(void *target, void **columnsData) {
 
 }
 
+
+int discAdicionar( Disciplina *disciplina ) {
+
+
+
+}
+
+
+int discAtualizar( const Disciplina *disciplina ) {
+
+
+	return 0;
+
+}
+
+
+int discRemover( int codigo ) {
+
+
+	return 0;
+
+}
+
+
