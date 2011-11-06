@@ -8,7 +8,7 @@
 
 #include <time.h>
 
-struct Atividade {
+struct _Atividade {
 
 	int codigo;
 	char *titulo;
@@ -16,12 +16,12 @@ struct Atividade {
 	time_t data;
 	float pontos;
 
-	char tipoAtividade[2];
+	char tipoAtividade[3];
 	int disciplina;
 
 };
 
-typedef struct Atividade Atividade;
+typedef struct _Atividade Atividade;
 
 
 

@@ -9,7 +9,7 @@
 
 struct TipoAtividade {
 
-	char codigo[2];
+	char codigo[3];
 	char *descricao;
 
 };
