@@ -12,6 +12,9 @@
 #include "horario.h"
 #include "../lib/sqlite3.h"
 
+// Conexão com o banco de dados.
+static sqlite3 *db;
+
 
 
 /*
@@ -29,9 +32,11 @@ static char *db_resolvePath(void) {
 static sqlite3 *db_connect(void) {
 
 	FILE *dbFile;
-	sqlite3 *db;
 	char *dbPath;
 	int rc;
+
+	if( db != NULL )
+		return db;
 
 
 	dbPath = db_resolvePath();
@@ -222,6 +227,9 @@ static void db_init( char *path ) {
 
 	}
 
+
+	sqlite3_close(db);
+
 }
 
 
@@ -244,6 +252,16 @@ int db_query(void *link, sqlite3_callback xCallback, char *sql) {
 	return rc;
 
 }
+
+
+/*
+ * Retorna o último ID inserido no banco automaticamente.
+ */
+int db_getLastInsertId( void ) {
+	return sqlite3_last_insert_rowid(db_connect());
+}
+
+
 
 
 

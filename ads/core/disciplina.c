@@ -3,11 +3,14 @@
  */
 
 #include "disciplina.h"
-#include "database.h"
-#include "../lib/utils.h"
+
 #include <stdio.h>
 #include <strings.h>
 #include <malloc.h>
+
+#include "database.h"
+#include "../lib/utils.h"
+#include "../lib/sqlite3.h"
 
 
 Disciplina **discListar() {
@@ -56,23 +59,57 @@ static int discExtrair(void *target, void **columnsData) {
 
 int discAdicionar( Disciplina *disciplina ) {
 
+	char sqlTemplate[] =
+		" INSERT INTO disciplina	"
+		"	(nome, nome_prof, email_prof) "
+		"	VALUES('%s', '%s', %s);	";
 
+	char email[300];
+	char query[5000];
+
+	sprintf(email, disciplina->email == NULL ? "NULL" : "'%s'", disciplina->email);
+	sprintf(query, sqlTemplate, disciplina->nome, disciplina->professor, email);
+
+	if( db_query(NULL, NULL, query) != SQLITE_OK )
+		return 1;
+
+	disciplina->codigo = db_getLastInsertId();
+
+	return 0;
 
 }
 
 
 int discAtualizar( const Disciplina *disciplina ) {
 
+	char sqlTemplate[] =
+		"UPDATE disciplina SET "
 
-	return 0;
+		"	nome = '%s', "
+		"	nome_prof = '%s', "
+		"	email_prof = %s "
+
+		"	WHERE coddisc = %d";
+
+	char email[300];
+	char query[5000];
+
+	sprintf(email, disciplina->email == NULL ? "NULL" : "'%s'", disciplina->email);
+	sprintf(query, sqlTemplate, disciplina->nome, disciplina->professor, email, disciplina->codigo);
+
+
+	return db_query(NULL, NULL, query) != SQLITE_OK;
 
 }
 
 
 int discRemover( int codigo ) {
 
+	char query[70];
 
-	return 0;
+	sprintf(query, "DELETE FROM disciplina WHERE coddisc = %d;", codigo);
+
+	return db_query(NULL, NULL, query) != SQLITE_OK;
 
 }
 

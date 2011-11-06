@@ -19,6 +19,7 @@ void traceAllAtivs(void);
 void traceAllDiscs(void);
 void traceAllHorarios(void);
 void testHorarios(int update);
+void discNova(void);
 
 
 
@@ -153,3 +154,34 @@ void testHorarios(int update) {
 	traceAllHorarios();
 
 }
+
+
+
+void discNova(void) {
+
+	Disciplina disc;
+
+	disc.professor = "Caio Cunha";
+	disc.nome = "Office 2005";
+	disc.email = "caio@caiotoon.com";
+
+	/* CRIA UMA NOVA DISCIPLINA
+	if(!discAdicionar(&disc))
+		printf("Codigo: %d.", disc.codigo);
+	else
+		fprintf(stderr, "Não foi possível criar a nova disciplina.");
+	*/
+
+	disc.codigo = 2;
+	disc.professor = "Adamastor";
+
+	discAtualizar(&disc);
+
+
+	discRemover(3);
+	discRemover(4);
+	discRemover(5);
+
+
+}
+

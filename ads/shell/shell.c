@@ -28,7 +28,8 @@ int main(int argc, char **argv) {
 //	traceAllAtivs();
 //	traceAllDiscs();
 //	traceAllHorarios();
-	testHorarios(FALSE);
+//	testHorarios(FALSE);
+	discNova();
 
 	return EXIT_SUCCESS;
 

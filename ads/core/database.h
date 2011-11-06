@@ -53,6 +53,12 @@ int db_query(void *link, sqlite3_callback callback, char *sql);
 
 
 /*
+ * Retorna o último ID inserido no banco automaticamente.
+ */
+int db_getLastInsertId( void );
+
+
+/*
  * Realiza uma query no banco e efetua o parseamento do resultado em um array de diversos
  * items. Os itens são extraídos através da função "extraction". Um ponteiro nulo será retornado
  * caso ocorra algum erro. O array de itens será finalizado com um ponteiro nulo.
