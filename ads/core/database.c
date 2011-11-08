@@ -8,13 +8,20 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <time.h>
+#include <strings.h>
+#include <regex.h>
 
 #include "horario.h"
 #include "../lib/sqlite3.h"
+#include "../lib/utils.h"
+
+
+
+
 
 // Conexão com o banco de dados.
 static sqlite3 *db;
-
+static long int connLinks = 0;
 
 
 /*
@@ -35,8 +42,10 @@ static sqlite3 *db_connect(void) {
 	char *dbPath;
 	int rc;
 
-	if( db != NULL )
+	if( db != NULL ) {
+		connLinks++;
 		return db;
+	}
 
 
 	dbPath = db_resolvePath();
@@ -57,8 +66,46 @@ static sqlite3 *db_connect(void) {
 	}
 
 
+	connLinks++;
+	if( atexit(db_close_all) )
+		fprintf(stderr, "WARN: não foi possível registrar o link de fechamento automático da "
+				"conexão com o banco. Certifique-se de que o banco será finalizado.");
+
 	// Retorna o banco de dados.
 	return db;
+
+}
+
+
+/*
+ * Fecha a conexão com o banco se ninguém mais tiver usando. Sempre que método db_connect for executado,
+ * o método db_close precisa ser invocado, caso contrário a conexão nunca se fechará.
+ */
+void db_close(void) {
+
+	if( !--connLinks ) {
+
+		if(db != NULL ) {
+			sqlite3_close(db);
+			db = NULL;
+			connLinks = 0;
+		}
+
+	}
+
+}
+
+
+/*
+ * Fecha todas as conexões com o banco de dados.
+ */
+void db_close_all(void) {
+
+	if(db != NULL ) {
+		sqlite3_close(db);
+		db = NULL;
+		connLinks = 0;
+	}
 
 }
 
@@ -356,3 +403,58 @@ int db_listFree( void **list ) {
 
 }
 
+
+/*
+ * Tenta ler a String em "from", caso seja NULL, então NULL é devolvido, caso seja uma
+ * string válida, memória é alocada dinamicamente para ela e a string é copiada.
+ */
+void *rs_readStringOrNull( void *from, char *to ) {
+
+	if( !from )
+		return NULL;
+
+
+	if( !(to= (char *) malloc(sizeof(char)*(strlen((char *)from)+1))) ) {
+		fprintf(stderr, "Não há memória suficiente.");
+		exit(1);
+	}
+
+
+	strcpy(to, (char *) from);
+	return to;
+
+}
+
+
+/*
+ * Escreve a string preparada para ser inserida no banco de dados ou a string NULL quando o ponteiro for nulo e retorna
+ * um ponteiro para ela.
+ *
+ * A memória alocada deve ser desalocada manualmente.
+ */
+char *rs_prepareStringOrNull( const char *raw ) {
+
+	char *to = NULL;
+
+	if( raw ) {
+
+		if( (to=(char *) malloc(S_CHAR*(strlen(raw)+3))) != NULL )
+				sprintf(to, "'%s'", raw);
+
+	} else {
+
+		if( (to=(char *) malloc(S_CHAR*5)) != NULL )
+			strcpy(to, "NULL");
+
+	}
+
+
+	if( to == NULL ) {
+		fprintf(stderr, "Ocorreu um erro durante a preparação da query. Possivelmente não há memória suficiente.");
+		exit(1);
+	}
+
+
+	return to;
+
+}

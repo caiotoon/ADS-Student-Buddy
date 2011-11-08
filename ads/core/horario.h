@@ -18,7 +18,7 @@
 struct _Horario {
 
 	int codigo;
-	char diaSemana[3];
+	char diaSemana[4];
 	Disciplina *disciplina;
 	time_t horaInicial;
 	time_t horaFinal;

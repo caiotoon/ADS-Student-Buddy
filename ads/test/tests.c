@@ -10,6 +10,7 @@
 #include "../core/horario.h"
 #include "../core/tipo_atividade.h"
 #include "../core/disciplina.h"
+#include "../core/atividade.h"
 
 
 
@@ -20,6 +21,8 @@ void traceAllDiscs(void);
 void traceAllHorarios(void);
 void testHorarios(int update);
 void discNova(void);
+void ativTest(void);
+
 
 
 
@@ -185,3 +188,31 @@ void discNova(void) {
 
 }
 
+
+
+void ativTest(void) {
+
+	/*
+	Atividade atividade;
+
+	atividade.data = time(0);
+	atividade.titulo = "Atividade de teste";
+	atividade.descricao = "Essa é a descrição da atividade";
+	atividade.disciplina = 1;
+	atividade.pontos = 30.0;
+	strcpy(atividade.tipoAtividade, "PR");
+
+
+	ativAdicionar(&atividade);
+	printf("Atividade adicionada: %d.", atividade.codigo);
+	*/
+
+	Atividade *ativ = ativPegar(1);
+
+	ativ->data = time(0);
+	printf("Atividade: %d. %s - %s\n", ativ->codigo, ativ->titulo, asctime(localtime(&ativ->data)));
+
+	strcpy(ativ->titulo, "Im here!");
+	ativAtualizar(ativ);
+
+}

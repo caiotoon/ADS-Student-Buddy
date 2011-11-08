@@ -13,10 +13,52 @@
 #include "../lib/sqlite3.h"
 
 
+
+// Declara a estrutura que irá conter a lista de disciplinas lá carregadas.
+
+struct {
+
+	int length;
+	Disciplina **discs;
+
+} DISCIPLINAS;
+
+
+/*
+ * Busca uma disciplina no array. Os algoritimos de ordenação e pesquisa precisam
+ * ser melhorados no futuro.
+ */
+static Disciplina *searchDisciplina( int codigo ) {
+
+	register int i, iLimit;
+
+	iLimit = DISCIPLINAS.length;
+	for(i=0; i<iLimit; i++)
+		if( DISCIPLINAS.discs[i]->codigo == codigo )
+			return DISCIPLINAS.discs[i];
+
+
+	return NULL;
+
+}
+
+static void addDisciplina( Disciplina *disc ) {
+
+	if( DISCIPLINAS.length == 0 )
+		DISCIPLINAS.discs = (Disciplina *) malloc(sizeof(Disciplina));
+
+	else
+		DISCIPLINAS.discs = realloc(DISCIPLINAS.discs, sizeof(Disciplina)*DISCIPLINAS.length);
+
+
+	DISCIPLINAS.discs[DISCIPLINAS.length] = disc;
+	DISCIPLINAS.length++;
+
+}
+
+
 Disciplina **discListar() {
-
 	return db_list(sizeof(Disciplina), discExtrair, "SELECT * FROM disciplina");
-
 }
 
 
@@ -25,6 +67,10 @@ Disciplina *discPegar(int codigo) {
 
 	Disciplina **result, *disc;
 
+	if( (disc=searchDisciplina(codigo)) )
+		return disc;
+
+
 	char sql[100];
 
 	snprintf(sql, 100, "SELECT coddisc, nome, nome_prof, email_prof FROM disciplina WHERE coddisc = %d;", codigo);
@@ -32,6 +78,7 @@ Disciplina *discPegar(int codigo) {
 
 	disc = *result;
 	free(result);
+	addDisciplina(disc);
 
 	return disc;
 
@@ -44,13 +91,9 @@ static int discExtrair(void *target, void **columnsData) {
 	Disciplina *disc = (Disciplina *) target;
 
 	disc->codigo = atoi(columnsData[0]);
-	disc->nome = (char *) malloc(sizeof(char) * (strlen(columnsData[1])+2));
-	disc->professor = (char *) malloc(sizeof(char) * (strlen(columnsData[2])+2));
-	disc->email = (char *) malloc(sizeof(char) * (strlen(columnsData[3])+1));;
-
-	strcpy(disc->nome, columnsData[1]);
-	strcpy(disc->professor, columnsData[2]);
-	strcpy(disc->email, columnsData[3]);
+	rs_readStringOrNull(columnsData[1], disc->nome);
+	rs_readStringOrNull(columnsData[2], disc->professor);
+	rs_readStringOrNull(columnsData[3], disc->email);
 
 	return 0;
 

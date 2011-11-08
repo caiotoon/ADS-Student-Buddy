@@ -5,8 +5,9 @@
 #ifndef DATABASE_H_
 #define DATABASE_H_
 
-#include "../lib/sqlite3.h"
 #include <stdlib.h>
+#include "../lib/sqlite3.h"
+
 
 
 // Definição do tipo de dados enviado para extração dos resultados.
@@ -38,6 +39,19 @@ static char *db_resolvePath(void);
  * novo banco é criado.
  */
 static sqlite3 *db_connect(void);
+
+
+/*
+ * Fecha a conexão com o banco se ninguém mais tiver usando. Sempre que método db_connect for executado,
+ * o método db_close precisa ser invocado, caso contrário a conexão nunca se fechará.
+ */
+void db_close(void);
+
+
+/*
+ * Fecha todas as conexões com o banco de dados.
+ */
+void db_close_all(void);
 
 
 /*
@@ -76,5 +90,21 @@ void **db_list( size_t typeSize, int (*extractor)(void *, void **), char *sql );
  * Libera a memória utilizada por uma lista que tenha sido gerada com a função "db_list".
  */
 int db_listFree( void **list );
+
+
+/*
+ * Tenta ler a String em "from", caso seja NULL, então NULL é devolvido, caso seja uma
+ * string válida, memória é alocada dinamicamente para ela e a string é copiada.
+ */
+void *rs_readStringOrNull( void*from, char *to );
+
+
+/*
+ * Escreve a string preparada para ser inserida no banco de dados ou a string NULL quando o ponteiro for nulo e retorna
+ * um ponteiro para ela.
+ *
+ * A memória alocada deve ser desalocada manualmente.
+ */
+char *rs_prepareStringOrNull( const char *raw );
 
 #endif

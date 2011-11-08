@@ -14,3 +14,4 @@ void strToLower( char *str ) {
 			*ptr = tolower((unsigned char)*ptr);
 
 }
+

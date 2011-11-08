@@ -11,6 +11,10 @@
 #include "../test/tests.h"
 
 
+static void pegarSemana(time_t *init, time_t *final);
+
+
+
 /*
  * Ponto de entrada do programa.
  *
@@ -29,8 +33,10 @@ int main(int argc, char **argv) {
 //	traceAllDiscs();
 //	traceAllHorarios();
 //	testHorarios(FALSE);
-	discNova();
+//	discNova();
+	ativTest();
 
 	return EXIT_SUCCESS;
 
 }
+

@@ -53,7 +53,7 @@ Atividade *ativPegar( int codAtividade );
  * Retornará um ponteiro para um vetor de atividades finalizado por um ponteiro nulo. Um ponteiro
  * nulo será retornado caso ocorra algum erro.
  */
-Atividade **ativListar( int dataInicial, int dataFinal );
+Atividade **ativListar( time_t dataInicial, time_t dataFinal );
 
 
 /*
