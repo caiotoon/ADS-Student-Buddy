@@ -210,9 +210,7 @@ void ativTest(void) {
 	Atividade *ativ = ativPegar(1);
 
 	ativ->data = time(0);
-	printf("Atividade: %d. %s - %s\n", ativ->codigo, ativ->titulo, asctime(localtime(&ativ->data)));
-
-	strcpy(ativ->titulo, "Im here!");
 	ativAtualizar(ativ);
+	printf("Atividade: %d. %s - %s (horário: %d [%d])\n", ativ->codigo, ativ->titulo, asctime(localtime(&ativ->data)), ativ->horario, ativ->horario ? (ativ->horario%2 == 0)+1 : 0);
 
 }

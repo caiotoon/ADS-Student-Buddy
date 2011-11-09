@@ -18,6 +18,7 @@ struct _Atividade {
 
 	char tipoAtividade[3];
 	int disciplina;
+	int horario; // 0 indica que não há aulas desta matéria no dia marcado.
 
 };
 

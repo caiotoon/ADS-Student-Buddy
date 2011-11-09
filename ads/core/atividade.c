@@ -48,7 +48,7 @@ int ativAtualizar( const Atividade *atividade ) {
 		"	UPDATE atividade SET "
 		"		nome = %s, "
 		"		descricao = %s, "
-		"		data = strftime('%%Y-%%m-%%d', %d, 'unixepoch'), "
+		"		data = strftime('%%Y-%%m-%%d %%H:%%M', %d, 'unixepoch'), "
 		"		pontos = %f, "
 		"		codtipoatividade = '%s', "
 		"		coddisc = %d "
@@ -56,7 +56,6 @@ int ativAtualizar( const Atividade *atividade ) {
 
 	titulo = rs_prepareStringOrNull(atividade->titulo);
 	descricao = rs_prepareStringOrNull(atividade->descricao);
-
 
 	sprintf(query, sqlTemplate, titulo, descricao, atividade->data, atividade->pontos,
 		atividade->tipoAtividade, atividade->disciplina, atividade->codigo);
@@ -80,9 +79,13 @@ Atividade *ativPegar( int codAtividade ) {
 	Atividade **ativs, *ativ;
 
 	char sqlTemplate[] =
-		" SELECT codatividade, nome, descricao, data, pontos, codtipoatividade, coddisc "
-		" 	FROM atividade "
-		"	WHERE codatividade = %d; ";
+		" SELECT a.codatividade, a.nome, a.descricao, strftime('%%s', a.data), a.pontos, a.codtipoatividade, a.coddisc, h.codhorario "
+		" 	FROM atividade a "
+		"		LEFT JOIN horario h "
+		"			ON h.coddisc = a.coddisc "
+		"			AND strftime('%%w', a.data) = CAST((round((h.codhorario-1.5)/2)+1) as INTEGER) "
+		"	WHERE codatividade = %d "
+		"	LIMIT 1; ";
 
 	char query[strlen(sqlTemplate)+40];
 	sprintf(query, sqlTemplate, codAtividade);
@@ -105,10 +108,14 @@ Atividade *ativPegar( int codAtividade ) {
 Atividade **ativListar( time_t dataInicial, time_t dataFinal ) {
 
 	char sqlTemplate[] =
-		" SELECT codatividade, nome, descricao, data, pontos, codtipoatividade, coddisc"
-		" 	FROM atividade "
+		" SELECT a.codatividade, a.nome, a.descricao, strftime('%%s', a.data), a.pontos, a.codtipoatividade, a.coddisc, min(h.codhorario) "
+		" 	FROM atividade a "
+		"		LEFT JOIN horario h "
+		"			ON h.coddisc = a.coddisc "
+		"			AND strftime('%%w', a.data) = CAST((round((h.codhorario-1.5)/2)+1) as INTEGER) "
 		"	WHERE data BETWEEN strftime('%%Y-%%m-%%d', %d, 'unixepoch') AND strftime('%%Y-%%m-%%d', %d, 'unixepoch') "
-		"	ORDER BY data, coddisc, nome; ";
+		"	ORDER BY data, coddisc, nome "
+		"	GROUP BY a.codatividade; ";
 
 	char query[strlen(sqlTemplate)+40];
 
@@ -134,6 +141,7 @@ static int ativExtrair(void *target, void **columnsData) {
 	atividade->pontos = atof(columnsData[4]);
 	strcpy(atividade->tipoAtividade, columnsData[5]);
 	atividade->disciplina = atoi(columnsData[6]);
+	atividade->horario = columnsData[7] == NULL ? 0 : atoi(columnsData[7]);
 
 	return 0;
 
