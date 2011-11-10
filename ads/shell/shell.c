@@ -34,7 +34,9 @@ int main(int argc, char **argv) {
 //	traceAllHorarios();
 //	testHorarios(FALSE);
 //	discNova();
-	ativTest();
+//	ativTest();
+	outputTest();
+	printf("\nFim.\n");
 
 	return EXIT_SUCCESS;
 

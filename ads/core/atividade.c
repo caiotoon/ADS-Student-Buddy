@@ -19,7 +19,7 @@ int ativAdicionar( Atividade *atividade ) {
 	char query[1024*5];
 	char sqlTemplate[] =
 		" INSERT INTO atividade(codtipoatividade, coddisc, nome, data, pontos, descricao) "
-		"	VALUES('%s', %d, '%s', strftime('%%Y-%%m-%%d', %d, 'unixepoch'), %f, '%s'); ";
+		"	VALUES('%s', %d, '%s', strftime('%%Y-%%m-%%d %%H:%%M:%%S', %d, 'unixepoch'), %f, '%s'); ";
 
 
 	sprintf(query, sqlTemplate, atividade->tipoAtividade, atividade->disciplina, atividade->titulo
@@ -48,7 +48,7 @@ int ativAtualizar( const Atividade *atividade ) {
 		"	UPDATE atividade SET "
 		"		nome = %s, "
 		"		descricao = %s, "
-		"		data = strftime('%%Y-%%m-%%d %%H:%%M', %d, 'unixepoch'), "
+		"		data = strftime('%%Y-%%m-%%d %%H:%%M:%%S', %d, 'unixepoch'), "
 		"		pontos = %f, "
 		"		codtipoatividade = '%s', "
 		"		coddisc = %d "

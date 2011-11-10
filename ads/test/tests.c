@@ -11,6 +11,7 @@
 #include "../core/tipo_atividade.h"
 #include "../core/disciplina.h"
 #include "../core/atividade.h"
+#include "../shell/output.h"
 
 
 
@@ -209,8 +210,53 @@ void ativTest(void) {
 
 	Atividade *ativ = ativPegar(1);
 
+	strcpy(ativ->titulo, "Nome alterado");
 	ativ->data = time(0);
 	ativAtualizar(ativ);
 	printf("Atividade: %d. %s - %s (horário: %d [%d])\n", ativ->codigo, ativ->titulo, asctime(localtime(&ativ->data)), ativ->horario, ativ->horario ? (ativ->horario%2 == 0)+1 : 0);
 
 }
+
+
+
+void outTiposAtividades() {
+
+	TipoAtividade **tipos = tipoListar();
+	outListarTiposAtividades(tipos);
+
+	db_listFree(tipos);
+
+}
+
+void outDiscs() {
+
+	Disciplina **values = discListar();
+	outListarDisciplinas(values);
+
+	db_listFree(values);
+
+}
+
+
+void outHoras() {
+
+	Horario **values = horaListar();
+	outListarHorarios(values);
+
+	db_listFree(values);
+
+}
+
+
+
+
+
+int outputTest() {
+
+//	outTiposAtividades();
+//	outDiscs();
+	outHoras();
+
+}
+
+

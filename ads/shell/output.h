@@ -5,6 +5,10 @@
 #ifndef OUTPUT_H_
 #define OUTPUT_H_
 
+#ifndef SECS_IN_DAY
+#define SECS_IN_DAY 86400
+#endif
+
 #include <time.h>
 #include "../core/atividade.h"
 #include "../core/horario.h"
@@ -16,56 +20,52 @@
 /*
  * Escreve a lista de tipos disponíveis.
  *
- * param cont	número de itens no vetor informado.
- * param tipos	ponteiro para um vetor com os itens.
+ * param tipos	ponteiro para um vetor com os itens, finalizado com um ponteiro nulo.
  */
-void outListarTiposAtividades( int cont, TipoAtividade tipos[] );
+void outListarTiposAtividades( const TipoAtividade **tipos );
 
 
 
 /*
  * Escreve a lista de disciplinas disponíveis.
  *
- * param cont			número de itens no vetor informado.
- * param disciplinas	ponteiro para um vetor com os itens.
+ * param disciplinas	ponteiro para um vetor com os itens, finalizado com um ponteiro nulo.
  */
-void outListarDisciplinas( int cont, Disciplina disciplinas[] );
+void outListarDisciplinas( const Disciplina **disciplinas );
 
 
 
 /*
  * Escreve a lista de horários disponíveis.
  *
- * param cont		número de itens no vetor informado.
- * param horarios	ponteiro para um vetor com os itens.
+ * param horarios	ponteiro para um vetor com os itens, finalizado com um ponteiro nulo.
  */
-void outListarHorarios( int cont, Horario horarios[] );
+void outListarHorarios( const Horario **horarios );
 
 
 /*
  * Escreve a lista de atividades disponíveis.
  *
- * param cont		número de itens no vetor informado.
- * param atividades	ponteiro para um vetor com os itens.
+ * param atividades	ponteiro para um vetor com os itens, finalizado com um ponteiro nulo.
  */
-void outListarAtividades( int cont, Atividade atividades[] );
+void outListarAtividades( const Atividade **atividades );
 
 
 /*
- * Esvreve o cabeçalho do dia, com informação de data e cabeçalho.
+ * Escreve o cabeçalho do dia, com informação de data e cabeçalho.
  */
-static void outEscreverCabecalhoDia( time_t dia );
+static void outEscreverCabecalhoDia( const time_t *dia );
 
 
 /*
  * Escreve uma atividade completa.
  */
-static void outEscrever(Atividade *atividade);
+static void outEscreverAtividade(const Atividade *atividade);
 
 
 /*
- * Calcula a diferença entre uma data e a data atual do sistema e retorna uma string representando
- * esta diferença. A string será em dias, em semanas ou em meses. Exs.:
+ * Calcula a diferença entre uma data e a data atual do sistema e escreve uma string representando
+ * esta diferença no argumento "target". A string será em dias, em semanas ou em meses. Exs.:
  *
  * hoje
  * ontem
@@ -77,7 +77,7 @@ static void outEscrever(Atividade *atividade);
  * daqui a mais de 6 meses
  * há mais de 6 meses
  */
-static char *getDataRef( time_t data );
+static void getDataRef( const time_t *data, char *target );
 
 
 
