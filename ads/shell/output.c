@@ -104,19 +104,28 @@ void outListarHorarios( const Horario **horarios ) {
 
 	char result[100];
 	time_t t, tBuffer;
+	char init[11], final[11];
 	struct tm *d;
 	int i;
 
-	for(i=0; i<500; i++) {
+	t = time(NULL);
+	strftime(init, 11, "%d/%m", localtime(&t));
+
+	for(i=0; i<60; i++) {
 
 		t = time(NULL);
+
 		d = localtime(&t);
 		d->tm_mday+=i;
+		tBuffer = mktime(d);
+		d = localtime(&tBuffer);
 
-		tBuffer= mktime(d);
+		strftime(final, 11, "%d/%m", d);
+
+		tBuffer = mktime(d);
 
 		getDataRef(&tBuffer, result);
-		printf("%d: %s\n", i, result);
+		printf("%d: %s - %s  %s\n", i, init, final, result);
 	}
 
 
@@ -209,14 +218,14 @@ static void getDataRef( const time_t *date, char *target ) {
 		finalDiffValue = absDiff;
 		sprintf(unity, "%s%s", "dia", finalDiffValue == 1 ? "" : "s");
 
-	} else if( absDiff <= 28 ) {
+	} else if( current->tm_mon == ref.tm_mon || absDiff < 28 ) {
 
-		finalDiffValue = absDiff / 7;
+		finalDiffValue = ceil(absDiff / 7);
 		sprintf(unity, "%s%s", "semana", finalDiffValue == 1 ? "" : "s");
 
 	} else {
 
-		finalDiffValue = absDiff/28;
+		finalDiffValue = ceil(absDiff/28);
 
 		if( finalDiffValue > 6 ) {
 			maxReach = 1;
