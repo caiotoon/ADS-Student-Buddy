@@ -111,12 +111,12 @@ void outListarHorarios( const Horario **horarios ) {
 	t = time(NULL);
 	strftime(init, 11, "%d/%m", localtime(&t));
 
-	for(i=0; i<60; i++) {
+	for(i=0; i<500; i++) {
 
 		t = time(NULL);
 
 		d = localtime(&t);
-		d->tm_mday+=i;
+		d->tm_mday-=i;
 		tBuffer = mktime(d);
 		d = localtime(&tBuffer);
 
@@ -218,14 +218,15 @@ static void getDataRef( const time_t *date, char *target ) {
 		finalDiffValue = absDiff;
 		sprintf(unity, "%s%s", "dia", finalDiffValue == 1 ? "" : "s");
 
-	} else if( current->tm_mon == ref.tm_mon || absDiff < 28 ) {
+	} else if( (current->tm_mon == ref.tm_mon && current->tm_year == ref.tm_year)|| absDiff < 35 ) {
 
 		finalDiffValue = ceil(absDiff / 7);
 		sprintf(unity, "%s%s", "semana", finalDiffValue == 1 ? "" : "s");
 
 	} else {
 
-		finalDiffValue = ceil(absDiff/28);
+		diff = (ref.tm_mon+12*ref.tm_year) - (current->tm_mon+12*current->tm_year);
+		finalDiffValue = abs(diff);
 
 		if( finalDiffValue > 6 ) {
 			maxReach = 1;
