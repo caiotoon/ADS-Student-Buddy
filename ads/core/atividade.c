@@ -105,7 +105,7 @@ Atividade *ativPegar( int codAtividade ) {
  * Retornará um ponteiro para um vetor de atividades finalizado por um ponteiro nulo. Um ponteiro
  * nulo será retornado caso ocorra algum erro.
  */
-Atividade **ativListar( time_t dataInicial, time_t dataFinal ) {
+Atividade **ativListar( const time_t *dataInicial, const time_t *dataFinal ) {
 
 	char sqlTemplate[] =
 		" SELECT a.codatividade, a.nome, a.descricao, strftime('%%s', a.data), a.pontos, a.codtipoatividade, a.coddisc, min(h.codhorario) "
@@ -113,14 +113,14 @@ Atividade **ativListar( time_t dataInicial, time_t dataFinal ) {
 		"		LEFT JOIN horario h "
 		"			ON h.coddisc = a.coddisc "
 		"			AND strftime('%%w', a.data) = CAST((round((h.codhorario-1.5)/2)+1) as INTEGER) "
-		"	WHERE data BETWEEN strftime('%%Y-%%m-%%d', %d, 'unixepoch') AND strftime('%%Y-%%m-%%d', %d, 'unixepoch') "
-		"	ORDER BY data, coddisc, nome "
-		"	GROUP BY a.codatividade; ";
+		"	WHERE data BETWEEN strftime('%%Y-%%m-%%d 00:00:00', %d, 'unixepoch') AND strftime('%%Y-%%m-%%d 23:59:59', %d, 'unixepoch') "
+		"	GROUP BY a.codatividade "
+		"	ORDER BY a.data, a.coddisc, a.nome; ";
 
 	char query[strlen(sqlTemplate)+40];
 
 
-	sprintf(query, sqlTemplate, dataInicial, dataFinal);
+	sprintf(query, sqlTemplate, *dataInicial, *dataFinal);
 	return db_list(sizeof(Atividade), ativExtrair, query);
 
 }

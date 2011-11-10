@@ -7,6 +7,7 @@
 
 #include "../lib/sqlite3.h"
 #include "../lib/utils.h"
+#include "../lib/date_utils.h"
 #include "../core/horario.h"
 #include "../core/tipo_atividade.h"
 #include "../core/disciplina.h"
@@ -248,6 +249,21 @@ void outHoras() {
 }
 
 
+void outAtividades() {
+
+	time_t from, to;
+	Atividade **values;
+
+	from = time(NULL)-SECS_IN_DAY*300;
+	to = time(NULL)+SECS_IN_DAY*300;
+
+	values = ativListar(&from, &to);
+
+	outListarAtividades(&from, &to, values);
+
+
+}
+
 
 
 
@@ -255,7 +271,8 @@ int outputTest() {
 
 //	outTiposAtividades();
 //	outDiscs();
-	outHoras();
+//	outHoras();
+	outAtividades();
 
 }
 

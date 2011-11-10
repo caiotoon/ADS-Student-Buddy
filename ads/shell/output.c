@@ -13,6 +13,7 @@
 #include <time.h>
 #include <math.h>
 
+#include "../lib/date_utils.h"
 #include "../core/atividade.h"
 #include "../core/horario.h"
 #include "../core/disciplina.h"
@@ -72,7 +73,7 @@ void outListarDisciplinas( const Disciplina **disciplinas ) {
  * param horarios	ponteiro para um vetor com os itens, finalizado com um ponteiro nulo.
  */
 void outListarHorarios( const Horario **horarios ) {
-/*
+
 	const Horario **atual, *hora;
 	char ultimoDia[4];
 	char inicial[6], final[6];
@@ -82,7 +83,6 @@ void outListarHorarios( const Horario **horarios ) {
 
 	printf("Grade de horários:\n\n");
 	printf("       Horário           Disciplina\n");
-//	printf("[seg1] 19:00 às 20:00    Sistemas Operacionais Proprietários");
 
 	for(; (hora=*atual); atual++) {
 
@@ -100,34 +100,6 @@ void outListarHorarios( const Horario **horarios ) {
 
 	}
 
-	*/
-
-	char result[100];
-	time_t t, tBuffer;
-	char init[11], final[11];
-	struct tm *d;
-	int i;
-
-	t = time(NULL);
-	strftime(init, 11, "%d/%m", localtime(&t));
-
-	for(i=0; i<500; i++) {
-
-		t = time(NULL);
-
-		d = localtime(&t);
-		d->tm_mday-=i;
-		tBuffer = mktime(d);
-		d = localtime(&tBuffer);
-
-		strftime(final, 11, "%d/%m", d);
-
-		tBuffer = mktime(d);
-
-		getDataRef(&tBuffer, result);
-		printf("%d: %s - %s  %s\n", i, init, final, result);
-	}
-
 
 }
 
@@ -137,13 +109,49 @@ void outListarHorarios( const Horario **horarios ) {
  *
  * param atividades	ponteiro para um vetor com os itens, finalizado com um ponteiro nulo.
  */
-void outListarAtividades( const Atividade **atividades );
+void outListarAtividades( const time_t *dataInicial, const time_t *dataFinal, const Atividade **atividades ) {
+
+	const Atividade **atual, *ativ;
+	char init[20], final[20];
+	time_t *lastDate = NULL;
+
+
+	strftime(init, 11, "%x", localtime(dataInicial));
+	strftime(final, 11, "%x", localtime(dataFinal));
+
+	atual = atividades;
+	printf("Atividades entre %s à %s.\n", init, final);
+
+	for( ; (ativ=*atual); atual++ ) {
+
+		if( !lastDate || diffdays(&ativ->data, lastDate) != 0 )
+			outEscreverCabecalhoDia(lastDate=&ativ->data);
+
+		outEscreverAtividade(ativ);
+
+	}
+
+
+}
 
 
 /*
  * Escreve o cabeçalho do dia, com informação de data e cabeçalho.
  */
-static void outEscreverCabecalhoDia( const time_t *dia );
+static void outEscreverCabecalhoDia( const time_t *dia ) {
+
+	struct tm *data = localtime(dia);
+	char diaSemana[15], dataExtenso[11], dataRef[30];
+
+
+	strftime(diaSemana, 15, "%A", data);
+	strftime(dataExtenso, 11, "%x", data);
+	getDataRef(dia, dataRef);
+
+
+	printf( "\n%s - %s (%s)\n", dataExtenso, diaSemana, dataRef );
+
+}
 
 
 /*
@@ -151,9 +159,11 @@ static void outEscreverCabecalhoDia( const time_t *dia );
  */
 static void outEscreverAtividade(const Atividade *atividade) {
 
-
+	Disciplina *disc = discPegar(atividade->disciplina);
+	printf( "   %d. %-30s [%s] %s (%.1f)\n", atividade->horario, disc->nome, atividade->tipoAtividade, atividade->titulo, atividade->pontos );
 
 }
+
 
 
 /*
@@ -181,27 +191,16 @@ static void getDataRef( const time_t *date, char *target ) {
 	int maxReach=0;
 
 
+	diff = diffdays(&now, date);
+	absDiff = abs(diff);
 
 	current = localtime(date);
-	ref.tm_sec = 0;
-	ref.tm_min = 0;
-	ref.tm_hour = 0;
-	ref.tm_mday = current->tm_mday;
-	ref.tm_mon = current->tm_mon;
-	ref.tm_year = current->tm_year;
-	ref.tm_wday = current->tm_year;
-	ref.tm_yday = current->tm_yday;
-	ref.tm_isdst = current->tm_isdst;
-
+	tmcpy(&ref, current);
 	current = localtime(&now);
-	current->tm_sec = 0;
-	current->tm_min = 0;
-	current->tm_hour = 0;
 
+	ref.tm_hour = 5;
+	current->tm_hour = 5;
 
-
-	diff = difftime(mktime(&ref), mktime(current)) / SECS_IN_DAY;
-	absDiff = abs(diff);
 
 	// Encontra a unidade de medida.
 	if( absDiff == 0 ) {
@@ -225,7 +224,7 @@ static void getDataRef( const time_t *date, char *target ) {
 
 	} else {
 
-		diff = (ref.tm_mon+12*ref.tm_year) - (current->tm_mon+12*current->tm_year);
+		diff = diffmonths(&now, date);
 		finalDiffValue = abs(diff);
 
 		if( finalDiffValue > 6 ) {

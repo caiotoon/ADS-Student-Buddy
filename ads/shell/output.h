@@ -5,10 +5,6 @@
 #ifndef OUTPUT_H_
 #define OUTPUT_H_
 
-#ifndef SECS_IN_DAY
-#define SECS_IN_DAY 86400
-#endif
-
 #include <time.h>
 #include "../core/atividade.h"
 #include "../core/horario.h"
@@ -48,7 +44,7 @@ void outListarHorarios( const Horario **horarios );
  *
  * param atividades	ponteiro para um vetor com os itens, finalizado com um ponteiro nulo.
  */
-void outListarAtividades( const Atividade **atividades );
+void outListarAtividades( const time_t *dataInicial, const time_t *dataFinal, const Atividade **atividades );
 
 
 /*
