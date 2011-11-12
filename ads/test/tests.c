@@ -13,6 +13,7 @@
 #include "../core/disciplina.h"
 #include "../core/atividade.h"
 #include "../shell/output.h"
+#include "../shell/parser_disciplina.h"
 
 
 
@@ -24,6 +25,8 @@ void traceAllHorarios(void);
 void testHorarios(int update);
 void discNova(void);
 void ativTest(void);
+
+void parseTest(void);
 
 
 
@@ -277,3 +280,25 @@ int outputTest() {
 }
 
 
+
+
+void parseTest(void) {
+
+	char command[][20] = {"ads", "disciplina", "-a", "-m", "carlinhos@prof.una.br", "---"};
+	char **at;
+	char **filhoDaPuta = (char **) malloc(sizeof(char *));
+	int i, cmds=0;
+
+	for(i=0; strcmp(command[i], "---"); i++) {
+
+		cmds++;
+		filhoDaPuta = realloc(filhoDaPuta, sizeof(char *)*(i+1));
+		filhoDaPuta[i] = (char *) malloc(sizeof(char)*(strlen(command[i])+1));
+		strcpy(filhoDaPuta[i], command[i]);
+
+	}
+
+
+	parseDiscAdicionar(cmds, filhoDaPuta);
+
+}

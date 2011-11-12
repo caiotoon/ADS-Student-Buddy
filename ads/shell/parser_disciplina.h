@@ -15,7 +15,7 @@
  *
  * Um erro deve interromper o programa imediatamente.
  */
-Disciplina *parseDiscAdicionar( int argc, char **argv );
+Disciplina *parseDiscAdicionar( int argc, const char **argv );
 
 
 

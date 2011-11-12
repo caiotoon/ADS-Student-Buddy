@@ -35,9 +35,12 @@ int main(int argc, char **argv) {
 //	testHorarios(FALSE);
 //	discNova();
 //	ativTest();
-	outputTest();
-	printf("\nFim.\n");
+//	outputTest();
 
+	parseTest();
+
+
+	printf("\n\nFim.\n");
 	return EXIT_SUCCESS;
 
 }
