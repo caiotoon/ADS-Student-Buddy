@@ -14,8 +14,15 @@
  * para a disciplina montada.
  *
  * Um erro deve interromper o programa imediatamente.
+ *
+ * param argc		Número de argumentos no vetor argv
+ * param argv		Argumentos passados para o programa argv
+ * param horarios	Um ponteiro que apontará para um vetor de horários que foram
+ * 					informados pelo usuário. Este ponteiro será apontado para um
+ * 					vetor no caso do usuário ter informado ou será apontado para
+ * 					NULL caso o usuário não tenha informado a opção 'h'.
  */
-Disciplina *parseDiscAdicionar( int argc, const char **argv );
+Disciplina *parseDiscAdicionar( int argc, const char **argv, int **horarios );
 
 
 
@@ -28,8 +35,15 @@ Disciplina *parseDiscAdicionar( int argc, const char **argv );
  * serão 0 e qualquer string será um ponteiro nulo.
  *
  * Um erro de parser deve parar imediatamente a execução do programa.
+ *
+ * param argc		Número de argumentos no vetor argv
+ * param argv		Argumentos passados para o programa argv
+ * param horarios	Um ponteiro que apontará para um vetor de horários que foram
+ * 					informados pelo usuário. Este ponteiro será apontado para um
+ * 					vetor no caso do usuário ter informado ou será apontado para
+ * 					NULL caso o usuário não tenha informado a opção 'h'.
  */
-Disciplina *parseDiscEditar( int argc, char **argv );
+Disciplina *parseDiscEditar( int argc, char **argv, int **horarios );
 
 
 

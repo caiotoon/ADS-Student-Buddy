@@ -283,22 +283,56 @@ int outputTest() {
 
 
 void parseTest(void) {
+/*
+	char horarios[] = "seg1,sex2";
+	int *hor;
 
-	char command[][20] = {"ads", "disciplina", "-a", "-m", "carlinhos@prof.una.br", "---"};
+	hor = lerHorario(horarios);
+
+	if(!hor)
+		printf("Nenhum horário.\n");
+
+	else {
+
+		for(; *hor; hor++)
+			printf("%d\n", *hor);
+
+	}
+
+
+	printf("\nfim do teste.\n");
+	exit(0);
+*/
+	char command[][20] = {"ads", "disciplina", "-a", "-p", "Carlos", "-n", "Programação Estruturada",
+			"-h", "seg1,seg2,sex2",
+			"-m", "carlinhos@prof.una.br", "---"};
 	char **at;
-	char **filhoDaPuta = (char **) malloc(sizeof(char *));
+	char **str = (char **) malloc(sizeof(char *));
 	int i, cmds=0;
 
 	for(i=0; strcmp(command[i], "---"); i++) {
 
 		cmds++;
-		filhoDaPuta = realloc(filhoDaPuta, sizeof(char *)*(i+1));
-		filhoDaPuta[i] = (char *) malloc(sizeof(char)*(strlen(command[i])+1));
-		strcpy(filhoDaPuta[i], command[i]);
+		str = realloc(str, sizeof(char *)*(i+1));
+		str[i] = (char *) malloc(sizeof(char)*(strlen(command[i])+1));
+		strcpy(str[i], command[i]);
 
 	}
 
 
-	parseDiscAdicionar(cmds, filhoDaPuta);
+	int *hor;
+	Disciplina *disc;
+
+	disc = parseDiscAdicionar(cmds, str, &hor);
+
+	if( hor )
+		for(; *hor; hor++)
+			printf("%d\n", *hor);
+
+	else
+		printf("Remover todos os horários.\n");
+
+
+	printf("%s, %s, %s", disc->nome, disc->professor, disc->email);
 
 }
