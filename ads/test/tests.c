@@ -15,6 +15,7 @@
 #include "../shell/output.h"
 #include "../shell/parser_disciplina.h"
 #include "../shell/parser_atividade.h"
+#include "../shell/parser_consulta.h"
 
 
 
@@ -385,9 +386,52 @@ void parseTestAtiv(void) {
 }
 
 
+void parseTestCons(void) {
+
+	char command[][100] =
+	{
+		"ads",
+		"02-5-2010",
+		"28-1-2011",
+		"---"
+	};
+
+	char **str = (char **) malloc(sizeof(char *));
+	int i, cmds=0;
+
+	for(i=0; strcmp(command[i], "---"); i++) {
+
+		cmds++;
+		str = realloc(str, sizeof(char *)*(i+1));
+		str[i] = (char *) malloc(sizeof(char)*(strlen(command[i])+1));
+		strcpy(str[i], command[i]);
+
+	}
+
+
+	time_t sd, ed;
+
+
+	parseCons(cmds, str, &sd, &ed);
+
+	if( sd > 0 ) {
+
+		char ddd[40], dddd[40];
+		strftime(ddd, 40, "%d-%m-%Y", localtime(&sd));
+		strftime(dddd, 40, "%d-%m-%Y", localtime(&ed));
+
+		printf("%s à %s\n", ddd, dddd);
+
+	} else
+		printf("Não foi possível interpretar.\n");
+
+}
+
+
 void parseTest(void) {
 
 //	parseTestDisc();
-	parseTestAtiv();
+//	parseTestAtiv();
+	parseTestCons();
 
 }
