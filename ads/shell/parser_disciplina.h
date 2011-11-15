@@ -22,7 +22,7 @@
  * 					vetor no caso do usuário ter informado ou será apontado para
  * 					NULL caso o usuário não tenha informado a opção 'h'.
  */
-Disciplina *parseDiscAdicionar( int argc, const char **argv, int **horarios );
+Disciplina *parseDiscAdicionar( int argc, const char **argv, int *horarios );
 
 
 
@@ -43,7 +43,7 @@ Disciplina *parseDiscAdicionar( int argc, const char **argv, int **horarios );
  * 					vetor no caso do usuário ter informado ou será apontado para
  * 					NULL caso o usuário não tenha informado a opção 'h'.
  */
-Disciplina *parseDiscEditar( int argc, char **argv, int **horarios );
+Disciplina *parseDiscEditar( int argc, const char **argv, int *horarios );
 
 
 
@@ -53,6 +53,7 @@ Disciplina *parseDiscEditar( int argc, char **argv, int **horarios );
  * Um erro de parser deve interromper a execução do programa imediatamente.
  */
 int parseDiscRemover( int argc, char **argv );
+
 
 
 #endif

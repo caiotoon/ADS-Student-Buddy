@@ -303,9 +303,14 @@ void parseTest(void) {
 	printf("\nfim do teste.\n");
 	exit(0);
 */
-	char command[][20] = {"ads", "disciplina", "-a", "-p", "Carlos", "-n", "Programação Estruturada",
-			"-h", "seg1,seg2,sex2",
-			"-m", "carlinhos@prof.una.br", "---"};
+	char command[][100] = {"ads", "disciplina",
+			"-r",
+			"-c", "1",
+//			"-p", "Carlos",
+//			"-n", "Programacao Estruturada",
+//			"-h", "seg1,seg2,sex2",
+//			"-m", "carlinhos@prof.una.br",
+			"---"};
 	char **at;
 	char **str = (char **) malloc(sizeof(char *));
 	int i, cmds=0;
@@ -320,10 +325,11 @@ void parseTest(void) {
 	}
 
 
-	int *hor;
+	int *hor = NULL;
 	Disciplina *disc;
 
-	disc = parseDiscAdicionar(cmds, str, &hor);
+	//disc =
+	printf(">> %d", parseDiscRemover(cmds, str/*, &hor*/));
 
 	if( hor )
 		for(; *hor; hor++)

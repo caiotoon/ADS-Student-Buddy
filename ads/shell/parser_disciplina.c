@@ -10,46 +10,11 @@
 #include <unistd.h>
 #include <malloc.h>
 
+#include "parser.h"
 
 
-static int _getopt(int argc, const char **argv, const char *optstring, const char *mandatoryArgs);
 
 
-
-/*
- * Valida se a opção que exige parâmetros foi informada com o parâmetro.
- *
- * param argc			Quantidade de palavras no array "argv".
- * param argv			Array de palavras.
- * param mandatoryArgs	Opções que exigem argumentos.
- */
-static int _getopt( int argc, const char **argv, const char *optstring, const char *mandatoryArgs ) {
-
-	int opt;
-	char *arg, *index;
-	char buff[2] = {' ', '\0'};
-
-	opt = getopt(argc, argv, optstring);
-	buff[0] = (char) opt;
-	index = strstr(mandatoryArgs, buff);
-
-	if( strstr(mandatoryArgs, buff) && (!(arg=optarg) || *optarg == '-') ) {
-
-		fprintf(stderr, "A opção -%c exige um argumento.\n", opt);
-		abort();
-
-	}
-
-
-	if( arg == ':' ) {
-		fprintf(stderr, "A opção -%c é obrigatória.", optopt);
-		abort();
-	}
-
-
-	return opt;
-
-}
 
 
 
@@ -126,47 +91,41 @@ int *lerHorario(const char *horarios) {
 
 
 
-Disciplina *parseDiscAdicionar( int argc, const char **argv, int **horarios ) {
+Disciplina *parseDiscAdicionar( int argc, const char **argv, int *horarios ) {
 
-	int arg;
+	int opt;
 
 	Disciplina *disc;
 	int fName=0, fProf=0, fMail=0, fHorario=0;
 	char *name, *prof, *mail, *hora;
+	char *placer;
 
 
 
-	while( (arg=_getopt(argc, argv, ":n:p:m:h::a", "npm")) != -1 ) {
+	while( (opt=opt_get(argc, argv, "npm", "anpmh", &placer)) != -1 ) {
 
-		switch( arg ) {
+		switch( opt ) {
 			case 'a':
 				break;
 
 			case 'n':
 				fName = 1;
-				name = optarg;
+				name = placer;
 				break;
 
 			case 'p':
 				fProf = 1;
-				prof = optarg;
+				prof = placer;
 				break;
 
 			case 'm':
 				fMail = 1;
-				mail = optarg;
+				mail = placer;
 				break;
 
 			case 'h':
 				fHorario = 1;
-				printf("O ARGUMENTO ERA: %s\n", optarg);
-				if( optarg && *optarg != '-' )
-					hora = optarg;
-				else {
-					hora = NULL;
-				}
-
-
+				hora = placer;
 				break;
 
 		}
@@ -193,6 +152,128 @@ Disciplina *parseDiscAdicionar( int argc, const char **argv, int **horarios ) {
 	disc->professor = prof;
 
 	return disc;
+
+}
+
+
+
+Disciplina *parseDiscEditar( int argc, const char **argv, int *horarios ) {
+
+	int opt;
+
+	Disciplina *disc;
+	int fName=0, fProf=0, fMail=0, fHorario=0;
+	int codigo=0;
+	char *name, *prof, *mail, *hora;
+	char *placer;
+
+
+
+	while( (opt=opt_get(argc, argv, "npmc", "enpmhc", &placer)) != -1 ) {
+
+		switch( opt ) {
+			case 'e':
+				break;
+
+			case 'n':
+				fName = 1;
+				name = placer;
+				break;
+
+			case 'p':
+				fProf = 1;
+				prof = placer;
+				break;
+
+			case 'm':
+				fMail = 1;
+				mail = placer;
+				break;
+
+			case 'h':
+				fHorario = 1;
+				hora = placer;
+				break;
+
+			case 'c':
+				codigo = atoi(placer);
+				break;
+
+		}
+
+	}
+
+
+	if( !codigo ) {
+		fprintf(stderr, "A opção -c é obrigatória. Digite \"ads ajuda\" para obter ajuda.");
+		exit(1);
+	}
+
+
+	disc = discPegar(codigo);
+
+	if( !disc ) {
+		fprintf(stderr, "Não existe uma disciplina com o código %d.", codigo);
+		exit(1);
+	}
+
+
+	if( fName )
+		disc->nome = name;
+
+	if( fProf )
+		disc->professor = prof;
+
+	if( fMail )
+		disc->email = mail;
+
+
+	if( fHorario && hora )
+		*horarios = lerHorario(hora);
+
+	else
+		*horarios = NULL;
+
+
+
+	return disc;
+
+}
+
+
+int parseDiscRemover( int argc, char **argv ) {
+
+	int opt;
+
+	int codigo=0;
+	char *placer;
+
+
+
+	while( (opt=opt_get(argc, argv, "c", "rc", &placer)) != -1 ) {
+
+		switch( opt ) {
+
+			case 'd':
+				break;
+
+			case 'c':
+				codigo = atoi(placer);
+				break;
+
+		}
+
+	}
+
+
+	if( !codigo ) {
+		fprintf(stderr, "O código é obrigatório.");
+		exit(1);
+	}
+
+
+
+	return codigo;
 
 }
 

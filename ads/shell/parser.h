@@ -93,4 +93,18 @@ void execComandoAjuda( int argc, char **argv, EAcao acao );
 void execComandoConsulta( int argc, char **argv, EAcao acao );
 
 
+
+/*
+ * Retorna uma opção ou nulo.S
+ */
+int opt_get( int argc, const char **argv, const char *mandatoryOpts, const char *validOpts, char **argplacer );
+
+
+/*
+ * Reseta o parser de opções.
+ */
+void opt_reset( void );
+
+
+
 #endif

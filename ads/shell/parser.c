@@ -3,9 +3,12 @@
  */
 
 #include "parser.h"
-#include "docs.h"
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "docs.h"
 #include "../lib/utils.h"
 
 
@@ -128,4 +131,67 @@ void parse(int argc, char **argv) {
 
 	}
 
+}
+
+
+
+
+static int opt_current = 1;
+
+int opt_get( int argc, const char **argv, const char *mandatoryOpts, const char *validOpts, char **argplacer ) {
+
+	int opt;
+	char *arg;
+	char optNeedle[2] = {' ', '\0'};
+
+
+	if( opt_current >= argc )
+		return -1;
+
+	for( ; opt_current < argc && *argv[opt_current] != '-'; opt_current++ );
+
+	if( opt_current == argc ) {
+
+		opt_reset();
+
+		*argplacer = NULL;
+		return -1;
+
+	}
+
+	opt = argv[opt_current][1];
+	optNeedle[0] = opt;
+
+	if( !strstr(validOpts, optNeedle) ) {
+		fprintf(stderr, "Opção '-%c' não reconhecida.", opt);
+		exit(1);
+	}
+
+	if( opt_current < argc-1 && *argv[opt_current+1] != '-' ) {
+
+		*argplacer = argv[opt_current+1];
+		opt_current += 2;
+
+	} else {
+
+		if( strstr(mandatoryOpts, optNeedle) ) {
+
+			fprintf(stderr, "A opção -%c exige um argumento.\n", opt);
+			exit(1);
+
+		}
+
+		*argplacer = NULL;
+		opt_current++;
+
+	}
+
+
+	return opt;
+
+}
+
+
+void opt_reset( void ) {
+	opt_current = 1;
 }
