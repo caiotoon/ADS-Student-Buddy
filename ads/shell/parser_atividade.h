@@ -15,7 +15,7 @@
  *
  * Um erro deve interromper o programa imediatamente.
  */
-Atividade *parseAtivAdicionar( int argc, char **argv );
+Atividade *parseAtivAdicionar( int argc, const char **argv );
 
 
 
@@ -29,7 +29,7 @@ Atividade *parseAtivAdicionar( int argc, char **argv );
  *
  * Um erro de parser deve parar imediatamente a execução do programa.
  */
-Atividade *parseAtivEditar( int argc, char **argv );
+Atividade *parseAtivEditar( int argc, const char **argv );
 
 
 

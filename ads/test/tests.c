@@ -14,6 +14,7 @@
 #include "../core/atividade.h"
 #include "../shell/output.h"
 #include "../shell/parser_disciplina.h"
+#include "../shell/parser_atividade.h"
 
 
 
@@ -281,8 +282,8 @@ int outputTest() {
 
 
 
+void parseTestDisc(void) {
 
-void parseTest(void) {
 /*
 	char horarios[] = "seg1,sex2";
 	int *hor;
@@ -340,5 +341,53 @@ void parseTest(void) {
 
 
 	printf("%s, %s, %s", disc->nome, disc->professor, disc->email);
+
+}
+
+
+void parseTestAtiv(void) {
+
+	char command[][100] = {"ads", "disciplina",
+			"-e",
+			"-c", "1",
+			"-t", "OU",
+			"-i", "1",
+			"-p", "30.2",
+//			"-n", "Nome da tarefa",
+			"-d", "10-12-2011",
+			"---"};
+	char **at;
+	char **str = (char **) malloc(sizeof(char *));
+	int i, cmds=0;
+	char strdata[20];
+
+
+	for(i=0; strcmp(command[i], "---"); i++) {
+
+		cmds++;
+		str = realloc(str, sizeof(char *)*(i+1));
+		str[i] = (char *) malloc(sizeof(char)*(strlen(command[i])+1));
+		strcpy(str[i], command[i]);
+
+	}
+
+
+	Atividade *ativ;
+	struct tm *d;
+
+	ativ = /*printf(">> %d\n",*/ parseAtivEditar(cmds, str)/*)*/;
+	d = localtime(&ativ->data);
+
+
+	strftime(strdata, 20, "%d-%m-%Y", d);
+	printf("[%s] %s, %d, %f (%d) - %s\n", ativ->tipoAtividade, ativ->titulo, ativ->disciplina, ativ->pontos, ativ->codigo, strdata);
+
+}
+
+
+void parseTest(void) {
+
+//	parseTestDisc();
+	parseTestAtiv();
 
 }
