@@ -23,24 +23,9 @@ static void pegarSemana(time_t *init, time_t *final);
  */
 int main(int argc, char **argv) {
 
-	//parse(argc, argv);
-
-
-//	setHorarios();
-//	exit(0);
-
-//	traceAllAtivs();
-//	traceAllDiscs();
-//	traceAllHorarios();
-//	testHorarios(FALSE);
-//	discNova();
-//	ativTest();
-//	outputTest();
-
-	parseTest();
-
-
-	printf("\n\nFim.\n");
+	printf("\n");
+	parse(argc, argv);
+	printf("\n");
 	return EXIT_SUCCESS;
 
 }

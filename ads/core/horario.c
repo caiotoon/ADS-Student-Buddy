@@ -67,6 +67,23 @@ int horaAssociarDisciplina( int codHorario, int codDisciplina ) {
 }
 
 
+int horaDesassociarDisciplina( int codDisciplina ) {
+
+	char query[150];
+
+	// Verifica se uma disciplina foi informada.
+	sprintf(query, "UPDATE horario SET coddisc = NULL where coddisc = %d;", codDisciplina);
+
+	// Executa a query e verifica o retorno.
+	if( db_query(NULL, NULL, query) == SQLITE_OK )
+		return 1;
+
+
+	return 0;
+
+}
+
+
 
 Horario *horaPegar( const char diaSemana[4], int horario ) {
 

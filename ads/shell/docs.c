@@ -28,7 +28,7 @@ void escreverErro( EDocErro erro, char *args[] ) {
 			break;
 
 		case ERR_COMANDO_NAO_IDENTIFICADO:
-			puts("Comando inválido. Deve ser utilizado um dos comandos: atividade, disciplina, horario, tipo ou ajuda.");
+			puts("Comando inválido. Deve ser utilizado um dos comandos: atividade, disciplina, horario, tipos ou ajuda.\n");
 			break;
 
 	}

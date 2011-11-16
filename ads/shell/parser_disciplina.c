@@ -91,7 +91,7 @@ int *lerHorario(const char *horarios) {
 
 
 
-Disciplina *parseDiscAdicionar( int argc, const char **argv, int *horarios ) {
+Disciplina *parseDiscAdicionar( int argc, const char **argv, int **horarios ) {
 
 	int opt;
 
@@ -134,7 +134,7 @@ Disciplina *parseDiscAdicionar( int argc, const char **argv, int *horarios ) {
 
 
 	if( !(fName && fProf && fMail) ) {
-		fprintf(stderr, "As opções -m -p e -n são obrigatórias. Digite \"ads ajuda\" para obter ajuda.");
+		fprintf(stderr, "As opções -m -p e -n são obrigatórias. Digite \"ads ajuda\" para obter ajuda.\n");
 		exit(1);
 	}
 
@@ -157,7 +157,7 @@ Disciplina *parseDiscAdicionar( int argc, const char **argv, int *horarios ) {
 
 
 
-Disciplina *parseDiscEditar( int argc, const char **argv, int *horarios ) {
+Disciplina *parseDiscEditar( int argc, const char **argv, int **horarios ) {
 
 	int opt;
 
@@ -205,7 +205,7 @@ Disciplina *parseDiscEditar( int argc, const char **argv, int *horarios ) {
 
 
 	if( !codigo ) {
-		fprintf(stderr, "A opção -c é obrigatória. Digite \"ads ajuda\" para obter ajuda.");
+		fprintf(stderr, "A opção -c é obrigatória. Digite \"ads ajuda\" para obter ajuda.\n");
 		exit(1);
 	}
 
@@ -213,7 +213,7 @@ Disciplina *parseDiscEditar( int argc, const char **argv, int *horarios ) {
 	disc = discPegar(codigo);
 
 	if( !disc ) {
-		fprintf(stderr, "Não existe uma disciplina com o código %d.", codigo);
+		fprintf(stderr, "Não existe uma disciplina com o código %d.\n", codigo);
 		exit(1);
 	}
 
@@ -267,7 +267,7 @@ int parseDiscRemover( int argc, char **argv ) {
 
 
 	if( !codigo ) {
-		fprintf(stderr, "O código é obrigatório.");
+		fprintf(stderr, "O código é obrigatório.\n");
 		exit(1);
 	}
 

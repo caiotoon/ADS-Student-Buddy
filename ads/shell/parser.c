@@ -8,8 +8,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "parser_atividade.h"
+#include "parser_disciplina.h"
+#include "parser_consulta.h"
+#include "output.h"
 #include "docs.h"
+
 #include "../lib/utils.h"
+
+#include "../core/atividade.h"
+#include "../core/disciplina.h"
+#include "../core/horario.h"
+#include "../core/tipo_atividade.h"
+#include "../core/database.h"
+
 
 
 const char ACOES[]					= {'a', 'e', 'l', 'r'};
@@ -51,12 +63,18 @@ static EComando MAPA_COMANDOS[]	= {
 
 
 
+static EAcao findAction(int argc, char **argv);
+
+
+
 /*
  * Identifica o comando baseado na lista de comandos existentes no vetor acima.
  */
 EComando lerComando(char *comando) {
 
+	time_t t;
 	int i, iLimit;
+	struct tm *refDate;
 
 	strToLower(comando);
 	iLimit = CONT_COMANDOS;
@@ -65,6 +83,12 @@ EComando lerComando(char *comando) {
 		if(!strcmp(comando, COMANDOS[i]))
 			return MAPA_COMANDOS[i];
 
+
+	t = time(NULL);
+	refDate = localtime(&t);
+
+	if( strptime(comando, "%d-%m-%Y", refDate) )
+		return COM_CONSULTA;
 
 	escreverErro(ERR_COMANDO_NAO_IDENTIFICADO, NULL);
 	return -1;
@@ -75,7 +99,54 @@ EComando lerComando(char *comando) {
 
 EAcao parseAcao( int argc, char **argv, const EAcao acoesPermitidas[] ) {
 
-	return AC_EDITAR;
+	register int i = 0;
+	EAcao acao = findAction(argc, argv);
+
+	while(acoesPermitidas[i] >= 0) {
+
+		if( acoesPermitidas[i++] == acao )
+			return acao;
+
+	}
+
+
+	fprintf(stderr, "Nenhuma ação válida para o comando foi informada.\n");
+	exit(1);
+
+}
+
+
+static EAcao findAction(int argc, char **argv) {
+
+	register int i;
+
+	for(i=0; i<argc; i++) {
+
+		if( argv[i][0] == '-' ) {
+
+			switch(argv[i][1]) {
+
+				case 'a':
+					return AC_ADICIONAR;
+
+				case 'e':
+					return AC_EDITAR;
+
+				case 'l':
+					return AC_LISTAR;
+
+				case 'r':
+					return AC_REMOVER;
+
+			}
+
+		}
+
+
+	}
+
+
+	return AC_NONE;
 
 }
 
@@ -92,46 +163,225 @@ void parse(int argc, char **argv) {
 	// Identifica o comando.
 	com = lerComando(argv[1]);
 
-	if( com != COM_CONSULTA && argc < 3 )
+	if( com != COM_CONSULTA && com != COM_AJUDA && argc < 3 )
 		escreverErro( ERR_SEM_ACAO, NULL );
 
 
 	switch( com ) {
 
 		case COM_DISCIPLINA:
-			puts("Comando de disciplina.");
 			acao = parseAcao(argc, argv, AC_VALIDAS_DISCIPLINA);
+			execComandoDisc(argc, argv, acao);
 			break;
 
 		case COM_HORARIO:
-			puts("Comando de horário.");
 			acao = parseAcao(argc, argv, AC_VALIDAS_HORARIO);
+			execComandoHora(argc, argv, acao);
 			break;
 
 		case COM_ATIVIDADE:
-			puts("Comando de atividade.");
 			acao = parseAcao(argc, argv, AC_VALIDAS_ATIVIDADE);
+			execComandoAtiv(argc, argv, acao);
 			break;
 
 		case COM_TIPO_ATIVIDADE:
-			puts("Comando de tipos de atividades.");
-			acao = parseAcao(argc, argv, AC_VALIDAS_TIPO_ATIV);
+			execComandoTipo(argc, argv, parseAcao(argc, argv, AC_VALIDAS_TIPO_ATIV));
 			break;
 
 		case COM_CONSULTA:
-			puts("Comando de consulta.");
-			//acao = parseAcao(argc, argv, AC_VALIDAS_TIPO_ATIV);
-			acao = AC_LISTAR;
+			execComandoConsulta(argc, argv, parseAcao(argc, argv, AC_VALIDAS_TIPO_ATIV));
 			break;
 
 		case COM_AJUDA:
-			puts("Comando de ajuda.");
+			puts("A ajuda ainda não foi implementada.");
 			acao = AC_LISTAR;
 			break;
 
 	}
 
 }
+
+
+void execComandoDisc( int argc, char **argv, EAcao acao ) {
+
+	Disciplina *disc, **discs;
+	int *hor=NULL, *horPtr=NULL, codigo;
+
+
+	switch( acao ) {
+
+		case AC_ADICIONAR:
+
+			disc = parseDiscAdicionar(argc, argv, &hor);
+
+			if( discAdicionar(disc) ) {
+				fprintf(stderr, "Não foi possível adicionar a disciplina informada.\n");
+				exit(1);
+			}
+
+			for(horPtr=hor; *horPtr; horPtr++)
+				horaAssociarDisciplina(*horPtr, disc->codigo);
+
+
+			free(disc);
+			free(hor);
+
+			break;
+
+		case AC_EDITAR:
+
+			disc = parseDiscEditar(argc, argv, &hor);
+
+			if( discAtualizar(disc) ) {
+				fprintf(stderr, "Não foi possível adicionar a disciplina informada.\n");
+				exit(1);
+			}
+
+			if( hor ) {
+
+				horaDesassociarDisciplina(disc->codigo);
+
+				for(horPtr=hor; *horPtr; horPtr++)
+					horaAssociarDisciplina(*horPtr, disc->codigo);
+
+			}
+
+
+			free(disc);
+			free(hor);
+
+			break;
+
+		case AC_LISTAR:
+
+			discs = discListar();
+			outListarDisciplinas(discs);
+
+			db_listFree(discs);
+
+			break;
+
+		case AC_REMOVER:
+
+			codigo = parseDiscRemover(argc, argv);
+			discRemover(codigo);
+
+			break;
+
+	}
+
+}
+
+
+void execComandoAtiv( int argc, char **argv, EAcao acao ) {
+
+	Atividade *ativ;
+	int codigo;
+
+
+	switch( acao ) {
+
+		case AC_ADICIONAR:
+
+			ativ = parseAtivAdicionar(argc, argv);
+
+			if( ativAdicionar(ativ) ) {
+				fprintf(stderr, "Não foi possível adicionar a atividade informada.\n");
+				exit(1);
+			}
+
+
+			free(ativ);
+
+			break;
+
+		case AC_EDITAR:
+
+			ativ = parseAtivEditar(argc, argv);
+
+			if( ativAtualizar(ativ) ) {
+				fprintf(stderr, "Não foi possível editar a atividade informada.\n");
+				exit(1);
+			}
+
+
+			free(ativ);
+
+			break;
+
+		case AC_REMOVER:
+
+			codigo = parseAtivRemover(argc, argv);
+			ativRemover(codigo);
+
+			break;
+
+	}
+
+}
+
+
+void execComandoHora( int argc, char **argv, EAcao acao ) {
+
+	Horario **horas;
+
+	switch( acao ) {
+
+		case AC_LISTAR:
+
+			horas = horaListar();
+			outListarHorarios(horas);
+
+			db_listFree(horas);
+
+			break;
+
+	}
+
+}
+
+
+void execComandoTipo( int argc, char **argv, EAcao acao ) {
+
+	TipoAtividade **tipos;
+
+	switch( acao ) {
+
+		case AC_LISTAR:
+
+			tipos = tipoListar();
+			outListarTiposAtividades(tipos);
+
+			db_listFree(tipos);
+
+			break;
+
+	}
+
+}
+
+
+void execComandoConsulta( int argc, char **argv, EAcao acao ) {
+
+	Atividade **ativs;
+	time_t start, end;
+	parseCons(argc, argv, &start, &end);
+
+	if( start == 0 || end == 0 ) {
+		fprintf(stderr, "Não foi possível realizar a busca.\n");
+		exit(1);
+	}
+
+
+	ativs = ativListar(&start, &end);
+	outListarAtividades(&start, &end, ativs);
+
+//	db_listFree(ativs);
+
+}
+
+
+
 
 
 
@@ -163,7 +413,7 @@ int opt_get( int argc, const char **argv, const char *mandatoryOpts, const char 
 	optNeedle[0] = opt;
 
 	if( !strstr(validOpts, optNeedle) ) {
-		fprintf(stderr, "Opção '-%c' não reconhecida.", opt);
+		fprintf(stderr, "Opção '-%c' não reconhecida.\n", opt);
 		exit(1);
 	}
 

@@ -52,6 +52,13 @@ static int horaExtrair(void *target, void **columnsData);
 int horaAssociarDisciplina( int codHorario, int codDisciplina );
 
 
+
+/*
+ * Desassocia uma disciplina de todos os horários.
+ */
+int horaDesassociarDisciplina( int codDisciplina );
+
+
 /*
  * Retorna um horário baseado no dia da semana e na posicao do horário. [diaSemana] será um array de caracteres que
  * conterá as três primeiras letras do dia semana, e [horario] será 1 ou 2, significando, respectivamente, o primeiro

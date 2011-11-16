@@ -6,7 +6,12 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+
 #include "database.h"
+#include "disciplina.h"
+
+#include "../lib/utils.h"
 
 
 
@@ -16,20 +21,30 @@
  */
 int ativAdicionar( Atividade *atividade ) {
 
+	int result;
 	char query[1024*5];
 	char sqlTemplate[] =
 		" INSERT INTO atividade(codtipoatividade, coddisc, nome, data, pontos, descricao) "
 		"	VALUES('%s', %d, '%s', strftime('%%Y-%%m-%%d %%H:%%M:%%S', %d, 'unixepoch'), %f, '%s'); ";
 
 
-	sprintf(query, sqlTemplate, atividade->tipoAtividade, atividade->disciplina, atividade->titulo
-			, atividade->data, atividade->pontos, atividade->descricao);
-	db_query(NULL, NULL, query);
+	if( !discPegar(atividade->disciplina) ) {
+		fprintf(stderr, "Não existe uma disciplina com o código %d.", atividade->disciplina);
+		exit(1);
+	}
+
+
+	strToUpper(atividade->tipoAtividade);
+
+
+	sprintf(query, sqlTemplate, atividade->tipoAtividade, atividade->disciplina, atividade->titulo,
+			atividade->data, atividade->pontos, atividade->descricao);
+	result = db_query(NULL, NULL, query);
 
 	atividade->codigo = db_getLastInsertId();
 
 
-	return atividade;
+	return result != SQLITE_OK;
 
 }
 
@@ -54,8 +69,16 @@ int ativAtualizar( const Atividade *atividade ) {
 		"		coddisc = %d "
 		"	WHERE codatividade = %d; ";
 
+
+	if( !discPegar(atividade->disciplina) ) {
+		fprintf(stderr, "Não existe uma disciplina com o código %d.", atividade->disciplina);
+		exit(1);
+	}
+
 	titulo = rs_prepareStringOrNull(atividade->titulo);
 	descricao = rs_prepareStringOrNull(atividade->descricao);
+
+	strToUpper(atividade->tipoAtividade);
 
 	sprintf(query, sqlTemplate, titulo, descricao, atividade->data, atividade->pontos,
 		atividade->tipoAtividade, atividade->disciplina, atividade->codigo);

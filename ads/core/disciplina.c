@@ -77,8 +77,16 @@ Disciplina *discPegar(int codigo) {
 	result = (Disciplina **) db_list(sizeof(Disciplina), discExtrair, sql);
 
 	disc = *result;
+
+	if( !disc ) {
+		fprintf(stderr, "Não foi encontrada a disciplina com o código %d.\n", codigo);
+		exit(1);
+	}
+
+
 	free(result);
 	addDisciplina(disc);
+
 
 	return disc;
 
@@ -150,9 +158,15 @@ int discRemover( int codigo ) {
 
 	char query[70];
 
-	sprintf(query, "DELETE FROM disciplina WHERE coddisc = %d;", codigo);
+	sprintf(query, "DELETE FROM atividade WHERE coddisc = %d;", codigo);
 
-	return db_query(NULL, NULL, query) != SQLITE_OK;
+	if( db_query(NULL, NULL, query) == SQLITE_OK ) {
+
+		sprintf(query, "DELETE FROM disciplina WHERE coddisc = %d;", codigo);
+		return db_query(NULL, NULL, query) != SQLITE_OK;
+
+	} else
+		return 1;
 
 }
 

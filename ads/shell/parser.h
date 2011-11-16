@@ -11,7 +11,7 @@
 /*
  * Enumeração de comandos existentes.
  */
-enum Comando {
+enum _Comando {
 	COM_DISCIPLINA,
 	COM_ATIVIDADE,
 	COM_HORARIO,
@@ -20,20 +20,21 @@ enum Comando {
 	COM_AJUDA
 };
 
-typedef enum Comando EComando;
+typedef enum _Comando EComando;
 
 
 /*
  * Enumeração de ações existentes no programa.
  */
-enum Acao {
+enum _Acao {
 	AC_ADICIONAR,
 	AC_EDITAR,
 	AC_LISTAR,
-	AC_REMOVER
+	AC_REMOVER,
+	AC_NONE
 };
 
-typedef enum Acao EAcao;
+typedef enum _Acao EAcao;
 
 
 /*
@@ -60,7 +61,7 @@ EAcao parseAcao( int argc, char **argv, const EAcao acoesPermitidas[] );
 /*
  * Executa um comando de atividade.
  */
-void execComandoAtiv( int argc, char **argv, EAcao );
+void execComandoAtiv( int argc, char **argv, EAcao acao );
 
 
 /*

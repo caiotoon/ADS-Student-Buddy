@@ -116,18 +116,27 @@ void outListarAtividades( const time_t *dataInicial, const time_t *dataFinal, co
 	time_t *lastDate = NULL;
 
 
-	strftime(init, 11, "%x", localtime(dataInicial));
-	strftime(final, 11, "%x", localtime(dataFinal));
+	strftime(init, 11, "%d-%m-%Y", localtime(dataInicial));
+	strftime(final, 11, "%d-%m-%Y", localtime(dataFinal));
 
 	atual = atividades;
-	printf("Atividades entre %s à %s.\n", init, final);
 
-	for( ; (ativ=*atual); atual++ ) {
+	if( *atual ) {
 
-		if( !lastDate || diffdays(&ativ->data, lastDate) != 0 )
-			outEscreverCabecalhoDia(lastDate=&ativ->data);
+		printf("Atividades entre %s à %s.\n", init, final);
 
-		outEscreverAtividade(ativ);
+		for( ; (ativ=*atual); atual++ ) {
+
+			if( !lastDate || diffdays(&ativ->data, lastDate) != 0 )
+				outEscreverCabecalhoDia(lastDate=&ativ->data);
+
+			outEscreverAtividade(ativ);
+
+		}
+
+	} else {
+
+		printf("Não existem atividades entre os dias %s e %s.\n", init, final);
 
 	}
 
@@ -145,7 +154,7 @@ static void outEscreverCabecalhoDia( const time_t *dia ) {
 
 
 	strftime(diaSemana, 15, "%A", data);
-	strftime(dataExtenso, 11, "%x", data);
+	strftime(dataExtenso, 11, "%d-%m-%Y", data);
 	getDataRef(dia, dataRef);
 
 
@@ -160,7 +169,7 @@ static void outEscreverCabecalhoDia( const time_t *dia ) {
 static void outEscreverAtividade(const Atividade *atividade) {
 
 	Disciplina *disc = discPegar(atividade->disciplina);
-	printf( "   %d. %-30s [%s] %s (%.1f)\n", atividade->horario, disc->nome, atividade->tipoAtividade, atividade->titulo, atividade->pontos );
+	printf( "   %d. %-30s [%s] %s (%.1f)\n", atividade->horario ? 2-(atividade->horario%2) : 0, disc->nome, atividade->tipoAtividade, atividade->titulo, atividade->pontos );
 
 }
 

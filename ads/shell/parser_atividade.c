@@ -55,7 +55,7 @@ Atividade *parseAtivAdicionar( int argc, const char **argv ) {
 				fData = strptime(placer, "%d-%m-%Y", &___d);
 
 				if( !fData ) {
-					fprintf(stderr, "O formato da data é inválido. Digite a data no formato dd-mm-aaaa.");
+					fprintf(stderr, "O formato da data é inválido. Digite a data no formato dd-mm-aaaa.\n");
 					exit(1);
 				}
 
@@ -155,7 +155,7 @@ Atividade *parseAtivEditar( int argc, const char **argv ) {
 				fData = strptime(placer, "%d-%m-%Y", &___d);
 
 				if( !fData ) {
-					fprintf(stderr, "O formato da data é inválido. Digite a data no formato dd-mm-aaaa.");
+					fprintf(stderr, "O formato da data é inválido. Digite a data no formato dd-mm-aaaa.\n");
 					exit(1);
 				}
 

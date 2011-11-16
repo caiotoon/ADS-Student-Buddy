@@ -15,3 +15,14 @@ void strToLower( char *str ) {
 
 }
 
+
+void strToUpper( char *str ) {
+
+	register char *ptr = str;
+
+	for(ptr=str; *ptr; ptr++)
+		if( !isupper(*ptr) )
+			*ptr = toupper((unsigned char)*ptr);
+
+}
+
