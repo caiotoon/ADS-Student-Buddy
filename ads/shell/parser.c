@@ -34,31 +34,22 @@ const EAcao AC_VALIDAS_HORARIO[]	= {AC_LISTAR, -1};
 
 
 
-#define CONT_COMANDOS 10;
+#define CONT_COMANDOS 20;
 static char *COMANDOS[]		= {
-	"disciplina",
-	"atividade",
-	"horario",
-	"tipos",
-	"ajuda",
-	"ontem",
-	"hoje",
-	"amanha",
-	"semana",
-	"mes"
+	"disciplina", "disc", "disciplinas", "discs",
+	"atividade", "ativ", "atividades", "ativs",
+	"horario", "horarios", "hora", "horas",
+	"tipos", "tipo",
+	"ajuda", "ontem", "hoje", "amanha", "semana", "mes"
 };
 
 static EComando MAPA_COMANDOS[]	= {
-	COM_DISCIPLINA,
-	COM_ATIVIDADE,
-	COM_HORARIO,
-	COM_TIPO_ATIVIDADE,
+	COM_DISCIPLINA, COM_DISCIPLINA, COM_DISCIPLINA, COM_DISCIPLINA,
+	COM_ATIVIDADE, COM_ATIVIDADE, COM_ATIVIDADE, COM_ATIVIDADE,
+	COM_HORARIO, COM_HORARIO, COM_HORARIO, COM_HORARIO,
+	COM_TIPO_ATIVIDADE, COM_TIPO_ATIVIDADE,
 	COM_AJUDA,
-	COM_CONSULTA,
-	COM_CONSULTA,
-	COM_CONSULTA,
-	COM_CONSULTA,
-	COM_CONSULTA
+	COM_CONSULTA, COM_CONSULTA, COM_CONSULTA, COM_CONSULTA, COM_CONSULTA
 };
 
 
