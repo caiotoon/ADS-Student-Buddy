@@ -42,6 +42,8 @@ static sqlite3 *db_connect(void) {
 	char *dbPath;
 	int rc;
 
+	db_close_all();
+
 	if( db != NULL ) {
 		connLinks++;
 		return db;

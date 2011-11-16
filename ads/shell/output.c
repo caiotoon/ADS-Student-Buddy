@@ -89,12 +89,25 @@ void outListarHorarios( const Horario **horarios ) {
 		strftime(inicial, 6, "%H:%M", localtime(&hora->horaInicial));
 		strftime(final, 6, "%H:%M", localtime(&hora->horaFinal));
 
-		printf("%s[%s%d] %s às %s    %.55s\n",
-			strcmp(ultimoDia, hora->diaSemana) ? "\n" : "",
-			hora->diaSemana, ((hora->codigo-1)%2)+1,
-			inicial, final,
-			hora->disciplina ? hora->disciplina->nome : "---"
-		);
+		if( hora->disciplina ) {
+
+			printf("%s[%s%d] %s às %s    %3d. %.55s\n",
+				strcmp(ultimoDia, hora->diaSemana) ? "\n" : "",
+				hora->diaSemana, ((hora->codigo-1)%2)+1,
+				inicial, final,
+				hora->disciplina->codigo,
+				hora->disciplina->nome
+			);
+
+		} else {
+
+			printf("%s[%s%d] %s às %s         ---\n",
+				strcmp(ultimoDia, hora->diaSemana) ? "\n" : "",
+				hora->diaSemana, ((hora->codigo-1)%2)+1,
+				inicial, final
+			);
+
+		}
 
 		strcpy(ultimoDia, hora->diaSemana);
 
@@ -123,7 +136,10 @@ void outListarAtividades( const time_t *dataInicial, const time_t *dataFinal, co
 
 	if( *atual ) {
 
-		printf("Atividades entre %s à %s.\n", init, final);
+		if( *init == *final )
+			printf("Atividades em %s.\n", init);
+		else
+			printf("Atividades entre %s à %s.\n", init, final);
 
 		for( ; (ativ=*atual); atual++ ) {
 
@@ -136,7 +152,10 @@ void outListarAtividades( const time_t *dataInicial, const time_t *dataFinal, co
 
 	} else {
 
-		printf("Não existem atividades entre os dias %s e %s.\n", init, final);
+		if( *init == *final )
+			printf("Não existem atividades em %s.\n", init);
+		else
+			printf("Não existem atividades entre os dias %s e %s.\n", init, final);
 
 	}
 
@@ -169,7 +188,7 @@ static void outEscreverCabecalhoDia( const time_t *dia ) {
 static void outEscreverAtividade(const Atividade *atividade) {
 
 	Disciplina *disc = discPegar(atividade->disciplina);
-	printf( "   %d. %-30s [%s] %s (%.1f)\n", atividade->horario ? 2-(atividade->horario%2) : 0, disc->nome, atividade->tipoAtividade, atividade->titulo, atividade->pontos );
+	printf( "%5d. %-20.20s  [%s] %s (%.1f pts)\n", atividade->codigo/*atividade->horario ? 2-(atividade->horario%2) : 0*/, disc->nome, atividade->tipoAtividade, atividade->titulo, atividade->pontos );
 
 }
 

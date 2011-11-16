@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
 
 	printf("\n");
 	parse(argc, argv);
-	printf("\n");
+	printf("Fim\n");
 	return EXIT_SUCCESS;
 
 }

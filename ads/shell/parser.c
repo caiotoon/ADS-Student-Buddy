@@ -248,7 +248,7 @@ void execComandoDisc( int argc, char **argv, EAcao acao ) {
 			discs = discListar();
 			outListarDisciplinas(discs);
 
-			db_listFree(discs);
+//			db_listFree(discs);
 
 			break;
 
@@ -323,7 +323,7 @@ void execComandoHora( int argc, char **argv, EAcao acao ) {
 			horas = horaListar();
 			outListarHorarios(horas);
 
-			db_listFree(horas);
+//			db_listFree(horas);
 
 			break;
 
@@ -343,7 +343,7 @@ void execComandoTipo( int argc, char **argv, EAcao acao ) {
 			tipos = tipoListar();
 			outListarTiposAtividades(tipos);
 
-			db_listFree(tipos);
+//			db_listFree(tipos);
 
 			break;
 

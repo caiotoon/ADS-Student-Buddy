@@ -38,3 +38,6 @@ void escreverErro( EDocErro erro, char *args[] ) {
 	exit(EXIT_FAILURE);
 
 }
+
+
+
