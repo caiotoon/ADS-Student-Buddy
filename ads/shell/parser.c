@@ -184,8 +184,7 @@ void parse(int argc, char **argv) {
 			break;
 
 		case COM_AJUDA:
-			puts("A ajuda ainda não foi implementada.");
-			acao = AC_LISTAR;
+			escreverDoc();
 			break;
 
 	}

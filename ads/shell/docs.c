@@ -45,6 +45,95 @@ void escreverErro( EDocErro erro, char *args[] ) {
 
 void escreverDoc() {
 
+	printf(
+
+		"\nA sintaxe geral de uso do programa é\n\n"
+		"    ads COMANDO [-ACAO [-OPCAO1 -OPCAO2 ...]]\n\n\n\n"
+
+
+		"COMANDO: deve ser um dos 4 comandos de entidades (\"atividades\", \"disciplinas\",\n"
+		"        \"horarios\", \"tipos\") ou um comando de CONSULTA.\n\n"
+
+
+		"ACAO:    deve ser uma das ações: -l (listar), -e (editar), -a (adicionar), -r \n"
+		"         (remover). Sempre que a ação -e ou -r forem utilizados deve ser\n"
+		"         informada a opção -c CODIGO, onde CODIGO é o código da entidade sendo\n"
+		"         removida ou atualizada.\n"
+
+
+		"\n\n\nDISCIPLINAS\n"
+		"   É possível cadastrar, editar, listar ou remover disciplinas. As sintaxes são:\n\n"
+
+	);
+
+	printf("   Para listar disciplinas:\n    ");
+	docDisc(AC_LISTAR);
+
+	printf("   Para adicionar disciplinas:\n    ");
+	docDisc(AC_ADICIONAR);
+
+	printf("   Para editar disciplinas:\n    ");
+	docDisc(AC_EDITAR);
+
+	printf("   Para remover disciplinas:\n    ");
+	docDisc(AC_REMOVER);
+
+
+
+	printf(
+		"\n\nATIVIDADES\n"
+
+		"   É possível adicionar, editar e remover atividades através do comando \"atividade\".\n"
+		"   As sintaxes são:\n\n"
+	);
+
+	printf("   Para adicionar uma atividade\n    ");
+	docAtiv(AC_ADICIONAR);
+
+	printf("   Para editar uma atividade\n    ");
+	docAtiv(AC_EDITAR);
+
+	printf("   Para remover uma atividade\n    ");
+	docAtiv(AC_REMOVER);
+
+
+	printf(
+		"\n\nCONSULTA DE ATIVIDADES\n"
+		"   Para realizar consulta de atividades, deve-se utilizar um dos possíveis \n"
+		"comandos de consulta:\n\n"
+
+
+		"   ads ontem                   Consulta as atividades do dia anterior.\n"
+		"   ads hoje                    Consulta as atividades do dia atual.\n"
+		"   ads amanha                  Consulta as atividades do dia posterior.\n"
+		"   ads semana                  Consulta as atividades da semana.\n"
+		"   ads mes                     Consulta as atividades do mês.\n"
+		"   ads dd-mm-aaaa              Consulta as atividades da data especificada.\n"
+		"   ads dd-mm-aaaa dd-mm-aaaa   Consulta as atividades no intervalo das datas\n"
+		"                               informadas.\n\n"
+	);
+
+
+	printf(
+		"\nHORARIOS\n"
+
+		"   É possível listar os horários da semana com o comando:\n    "
+	);
+
+	docHora(AC_LISTAR);
+
+
+
+	printf(
+		"\n\n\nTIPOS (de atividades)\n"
+
+		"   É possível listar os tipos de atividades com o comando:\n    "
+	);
+
+	docTipo(AC_LISTAR);
+
+
+	printf("\n");
 
 }
 
@@ -81,12 +170,12 @@ void docDisc( EAcao acao ) {
 	switch( acao ) {
 
 		case AC_LISTAR:
-			printf("\ndisciplina -l\n");
+			printf("disciplina -l\n\n");
 			break;
 
 		case AC_EDITAR:
 			printf(
-					"\ndisciplina -e -c codigo_disciplina\n"
+					"disciplina -e -c codigo_disciplina\n"
 					"           [-n nome_disciplina]\n"
 					"           [-p nome_professor]\n"
 					"           [-m email_professor]\n"
@@ -95,7 +184,7 @@ void docDisc( EAcao acao ) {
 
 		case AC_ADICIONAR:
 			printf(
-					"\ndisciplina -a \n"
+					"disciplina -a \n"
 					"           -n nome_disciplina\n"
 					"           -p nome_professor\n"
 					"           -m email_professor\n"
@@ -105,7 +194,7 @@ void docDisc( EAcao acao ) {
 
 		case AC_REMOVER:
 			printf(
-					"\ndisciplina -r -c codigo_disciplina\n\n"
+					"disciplina -r -c codigo_disciplina\n\n"
 			);
 			break;
 
@@ -124,7 +213,6 @@ void docAtiv( EAcao acao ) {
 
 		case AC_EDITAR:
 			printf(
-					"\n"
 					"atividade -e -c codigo_atividade\n"
 					"          [-n titulo_atividade]\n"
 					"          [-i codigo_disciplina]\n"
@@ -135,7 +223,6 @@ void docAtiv( EAcao acao ) {
 
 		case AC_ADICIONAR:
 			printf(
-					"\n"
 					"atividade -e \n"
 					"          -n titulo_atividade\n"
 					"          -i codigo_disciplina\n"
@@ -147,7 +234,7 @@ void docAtiv( EAcao acao ) {
 
 		case AC_REMOVER:
 			printf(
-					"\natividade -r -c codigo_atividade\n\n"
+					"atividade -r -c codigo_atividade\n\n"
 			);
 			break;
 
