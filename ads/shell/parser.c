@@ -210,9 +210,13 @@ void execComandoDisc( int argc, char **argv, EAcao acao ) {
 				exit(1);
 			}
 
-			for(horPtr=hor; *horPtr; horPtr++)
-				horaAssociarDisciplina(*horPtr, disc->codigo);
 
+			if( hor ) {
+
+				for(horPtr=hor; *horPtr; horPtr++)
+					horaAssociarDisciplina(*horPtr, disc->codigo);
+
+			}
 
 			free(disc);
 			free(hor);
@@ -248,7 +252,7 @@ void execComandoDisc( int argc, char **argv, EAcao acao ) {
 			discs = discListar();
 			outListarDisciplinas(discs);
 
-//			db_listFree(discs);
+			db_listFree(discs);
 
 			break;
 
@@ -323,7 +327,7 @@ void execComandoHora( int argc, char **argv, EAcao acao ) {
 			horas = horaListar();
 			outListarHorarios(horas);
 
-//			db_listFree(horas);
+			db_listFree(horas);
 
 			break;
 
@@ -343,7 +347,7 @@ void execComandoTipo( int argc, char **argv, EAcao acao ) {
 			tipos = tipoListar();
 			outListarTiposAtividades(tipos);
 
-//			db_listFree(tipos);
+			db_listFree(tipos);
 
 			break;
 
@@ -367,7 +371,7 @@ void execComandoConsulta( int argc, char **argv, EAcao acao ) {
 	ativs = ativListar(&start, &end);
 	outListarAtividades(&start, &end, ativs);
 
-//	db_listFree(ativs);
+	db_listFree(ativs);
 
 }
 

@@ -5,6 +5,9 @@
 #ifndef _DOCS_H
 #define _DOCS_H
 
+#include "parser.h"
+
+
 
 enum DocErro {
 	ERR_SEM_COMANDO,
@@ -33,6 +36,13 @@ void escreverDoc();
  * endereço informado.
  */
 void escreverErro( EDocErro erro, char *args[] );
+
+
+void docHora( EAcao acao );
+void docTipo( EAcao acao );
+void docDisc( EAcao acao );
+void docAtiv( EAcao acao );
+
 
 
 #endif

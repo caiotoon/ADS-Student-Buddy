@@ -136,10 +136,11 @@ void outListarAtividades( const time_t *dataInicial, const time_t *dataFinal, co
 
 	if( *atual ) {
 
-		if( *init == *final )
+		if( *dataInicial == *dataFinal )
 			printf("Atividades em %s.\n", init);
 		else
 			printf("Atividades entre %s à %s.\n", init, final);
+
 
 		for( ; (ativ=*atual); atual++ ) {
 

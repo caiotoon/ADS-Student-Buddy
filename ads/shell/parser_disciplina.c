@@ -11,6 +11,7 @@
 #include <malloc.h>
 
 #include "parser.h"
+#include "docs.h"
 
 
 
@@ -135,6 +136,7 @@ Disciplina *parseDiscAdicionar( int argc, const char **argv, int **horarios ) {
 
 	if( !(fName && fProf && fMail) ) {
 		fprintf(stderr, "As opções -m -p e -n são obrigatórias. Digite \"ads ajuda\" para obter ajuda.\n");
+		docDisc(AC_ADICIONAR);
 		exit(1);
 	}
 
@@ -206,6 +208,7 @@ Disciplina *parseDiscEditar( int argc, const char **argv, int **horarios ) {
 
 	if( !codigo ) {
 		fprintf(stderr, "A opção -c é obrigatória. Digite \"ads ajuda\" para obter ajuda.\n");
+		docDisc( AC_EDITAR );
 		exit(1);
 	}
 
@@ -268,6 +271,7 @@ int parseDiscRemover( int argc, char **argv ) {
 
 	if( !codigo ) {
 		fprintf(stderr, "O código é obrigatório.\n");
+		docDisc(AC_REMOVER);
 		exit(1);
 	}
 

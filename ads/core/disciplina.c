@@ -158,6 +158,13 @@ int discRemover( int codigo ) {
 
 	char query[70];
 
+
+	if( horaDesassociarDisciplina(codigo) )
+		return 1;
+
+
+
+
 	sprintf(query, "DELETE FROM atividade WHERE coddisc = %d;", codigo);
 
 	if( db_query(NULL, NULL, query) == SQLITE_OK ) {

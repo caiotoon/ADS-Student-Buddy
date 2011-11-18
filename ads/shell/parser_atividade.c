@@ -9,6 +9,7 @@
 #include <time.h>
 
 #include "parser.h"
+#include "docs.h"
 #include "../lib/date_utils.h"
 
 
@@ -90,6 +91,7 @@ Atividade *parseAtivAdicionar( int argc, const char **argv ) {
 
 	if( !(fTipo && fDisc && fData && fTitulo && fPontos) ) {
 		fprintf(stderr, "Todas as opções são obrigatórias. Digite 'ads ajuda' para obter ajuda.\n");
+		docAtiv(AC_ADICIONAR);
 		exit(1);
 	}
 
@@ -194,6 +196,7 @@ Atividade *parseAtivEditar( int argc, const char **argv ) {
 
 	if( !codigo ) {
 		fprintf(stderr, "O código é obrigatório. Digite 'ads ajuda' para obter ajuda.\n");
+		docAtiv(AC_EDITAR);
 		exit(1);
 	}
 
@@ -252,6 +255,7 @@ int parseAtivRemover( int argc, char **argv ) {
 
 	if( !codigo ) {
 		fprintf(stderr, "O código é obrigatório. Digite 'ads ajuda' para obter ajuda.\n");
+		docAtiv(AC_REMOVER);
 		exit(1);
 	}
 

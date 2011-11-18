@@ -11,10 +11,6 @@
 #include "../test/tests.h"
 
 
-static void pegarSemana(time_t *init, time_t *final);
-
-
-
 /*
  * Ponto de entrada do programa.
  *
@@ -23,9 +19,7 @@ static void pegarSemana(time_t *init, time_t *final);
  */
 int main(int argc, char **argv) {
 
-	printf("\n");
 	parse(argc, argv);
-	printf("Fim\n");
 	return EXIT_SUCCESS;
 
 }
