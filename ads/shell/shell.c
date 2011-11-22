@@ -20,6 +20,7 @@
 int main(int argc, char **argv) {
 
 	parse(argc, argv);
+	printf("\nFIM\n");
 	return EXIT_SUCCESS;
 
 }
