@@ -96,7 +96,7 @@ int db_listFree( void **list );
  * Tenta ler a String em "from", caso seja NULL, então NULL é devolvido, caso seja uma
  * string válida, memória é alocada dinamicamente para ela e a string é copiada.
  */
-void *rs_readStringOrNull( void*from, char *to );
+void *rs_readStringOrNull( const void *from );
 
 
 /*

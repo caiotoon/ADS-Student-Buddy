@@ -27,7 +27,7 @@ static int tipoExtrair(void *target, void **columnsData) {
 	TipoAtividade *tipo = (TipoAtividade *) target;
 
 	strcpy(tipo->codigo, columnsData[0]);
-	tipo->descricao = rs_readStringOrNull(columnsData[1], tipo->descricao);
+	tipo->descricao = rs_readStringOrNull(columnsData[1]);
 
 	return 0;
 

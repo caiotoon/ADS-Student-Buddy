@@ -158,8 +158,8 @@ static int ativExtrair(void *target, void **columnsData) {
 	Atividade *atividade = (Atividade *) target;
 
 	atividade->codigo = atoi(columnsData[0]);
-	atividade->titulo = rs_readStringOrNull(columnsData[1], atividade->titulo);
-	atividade->descricao = rs_readStringOrNull(columnsData[2], atividade->descricao);
+	atividade->titulo = rs_readStringOrNull(columnsData[1]);
+	atividade->descricao = rs_readStringOrNull(columnsData[2]);
 	atividade->data = atoi(columnsData[3]);
 	atividade->pontos = atof(columnsData[4]);
 	strcpy(atividade->tipoAtividade, columnsData[5]);

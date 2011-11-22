@@ -99,11 +99,31 @@ static int discExtrair(void *target, void **columnsData) {
 	Disciplina *disc = (Disciplina *) target;
 
 	disc->codigo = atoi(columnsData[0]);
-	disc->nome = rs_readStringOrNull(columnsData[1], disc->nome);
-	disc->professor = rs_readStringOrNull(columnsData[2], disc->professor);
-	disc->email = rs_readStringOrNull(columnsData[3], disc->email);
+	disc->nome = rs_readStringOrNull(columnsData[1]);
+	disc->professor = rs_readStringOrNull(columnsData[2]);
+	disc->email = rs_readStringOrNull(columnsData[3]);
 
 	return 0;
+
+}
+
+
+int discRelease(void *target) {
+
+	Disciplina *disc = (Disciplina *) target;
+
+	if(target) {
+
+		if(disc->nome)
+			free(disc->nome);
+
+		if( disc->professor)
+			free(disc->professor);
+
+		if( disc->email )
+			free(disc->email);
+
+	}
 
 }
 

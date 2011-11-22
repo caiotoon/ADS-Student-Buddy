@@ -334,11 +334,23 @@ static int db_callback( void *extractor, int argc, char **argv, char **cols ) {
 
 
 	// Verifica a inicialização do array e aloca a memória ou redimensiona-a.
+	// A verificação ocorre para não incorrer no erro do usuário não ter inicializado
+	// o ponteiro do ponteiro de elementos com NULL.
 	if( buffer->length == 0 )
-		buffer->elements = malloc(sizeof(void *));
+		buffer->elements = (void **) malloc(sizeof(void *));
 
 	else
 		buffer->elements = (void **) realloc(buffer->elements, sizeof(void *) * (buffer->length+1));
+
+
+
+	if( buffer->elements == NULL ) {
+
+		fprintf(stderr, "Não há memória suficiente para executar a operação.\n");
+		exit(1);
+
+	}
+
 
 	// Adiciona o elemento no array.
 	buffer->elements[buffer->length] = data;
@@ -369,14 +381,19 @@ void **db_list( size_t typeSize, int (*extractor)(void *, void **), char *sql ) 
 	data.length = 0;
 	data.typeSize = typeSize;
 	data.extractor = extractor;
+	data.elements = NULL;
 
 	if( db_query(&data, db_callback, sql) != SQLITE_OK )
 		printf("Erro de chamada.\n");
 
-	if( data.length == 0 )
-		data.elements = malloc(sizeof(NULL));
 
-	data.elements[data.length++] = malloc(sizeof(NULL));
+	data.elements = (void **) realloc(data.elements, ++data.length * sizeof(void *));
+
+	if( !data.elements ) {
+		fprintf(stderr, "Não há memória suficiente.\n");
+		exit(1);
+	}
+
 	data.elements[data.length-1] = NULL;
 	return data.elements;
 
@@ -410,20 +427,22 @@ int db_listFree( void **list ) {
  * Tenta ler a String em "from", caso seja NULL, então NULL é devolvido, caso seja uma
  * string válida, memória é alocada dinamicamente para ela e a string é copiada.
  */
-void *rs_readStringOrNull( void *from, char *to ) {
+void *rs_readStringOrNull( const void *from ) {
+
+	char *result;
 
 	if( !from )
 		return NULL;
 
 
-	if( !(to= (char *) malloc(sizeof(char)*(strlen((char *)from)+1))) ) {
+	if( !(result= (char *) malloc(sizeof(char)*(strlen((char *)from)+1))) ) {
 		fprintf(stderr, "Não há memória suficiente.");
 		exit(1);
 	}
 
 
-	strcpy(to, (char *) from);
-	return to;
+	strcpy(result, (char *) from);
+	return result;
 
 }
 

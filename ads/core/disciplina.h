@@ -64,4 +64,10 @@ static int discExtrair(void *target, void **columnsData);
 int discRemover( int codigo );
 
 
+/*
+ * Libera toda memória utilizada por uma disciplina.
+ */
+int discRelease( void *target );
+
+
 #endif
