@@ -26,9 +26,9 @@
 
 const char ACOES[]					= {'a', 'e', 'l', 'r'};
 
-const EAcao AC_VALIDAS_ATIVIDADE[] 	= {AC_ADICIONAR, AC_EDITAR, AC_REMOVER, -1};
+const EAcao AC_VALIDAS_ATIVIDADE[] 	= {AC_ADICIONAR, AC_EDITAR, AC_LISTAR, AC_REMOVER, -1};
 const EAcao AC_VALIDAS_DISCIPLINA[] = {AC_ADICIONAR, AC_EDITAR, AC_LISTAR, AC_REMOVER, -1};
-const EAcao AC_VALIDAS_TIPO_ATIV[]	= {AC_LISTAR, -1};
+const int AC_VALIDAS_TIPO_ATIV[]	= {AC_LISTAR, -1};
 const EAcao AC_VALIDAS_HORARIO[]	= {AC_LISTAR, -1};
 
 
@@ -40,7 +40,7 @@ static char *COMANDOS[]		= {
 	"atividade", "ativ", "atividades", "ativs",
 	"horario", "horarios", "hora", "horas",
 	"tipos", "tipo",
-	"ajuda", "ontem", "hoje", "amanha", "semana", "mes"
+	"-h", "ontem", "hoje", "amanha", "semana", "mes"
 };
 
 static EComando MAPA_COMANDOS[]	= {
@@ -90,10 +90,17 @@ EComando lerComando(char *comando) {
 
 EAcao parseAcao( int argc, char **argv, const EAcao acoesPermitidas[] ) {
 
+	char erroComandos[20];
+	char *at;
 	register int i = 0;
 	EAcao acao = findAction(argc, argv);
 
-	while(acoesPermitidas[i] >= 0) {
+	at = erroComandos;
+
+	while(acoesPermitidas[i] != -1) {
+
+		sprintf(at, "-%c, ", ACOES[acoesPermitidas[i]]);
+		at += 4;
 
 		if( acoesPermitidas[i++] == acao )
 			return acao;
@@ -101,7 +108,12 @@ EAcao parseAcao( int argc, char **argv, const EAcao acoesPermitidas[] ) {
 	}
 
 
-	fprintf(stderr, "Nenhuma ação válida para o comando foi informada.\n");
+	at -= 2;
+	*at = '\0';
+
+	fprintf(stderr, "\nNenhuma ação válida para o comando foi informada.\n"
+			"As ações válidas para este comando são: %s.\n"
+			"Digite \"calendario -h\" para obter ajuda.\n\n", erroComandos);
 	exit(1);
 
 }
@@ -180,7 +192,7 @@ void parse(int argc, char **argv) {
 			break;
 
 		case COM_CONSULTA:
-			execComandoConsulta(argc, argv, parseAcao(argc, argv, AC_VALIDAS_TIPO_ATIV));
+			execComandoConsulta(argc, argv);
 			break;
 
 		case COM_AJUDA:
@@ -310,6 +322,15 @@ void execComandoAtiv( int argc, char **argv, EAcao acao ) {
 
 			break;
 
+
+		case AC_LISTAR:
+
+			fprintf(stderr, "\n\nPara consultar as atividades, use uma das sintaxes a seguir:\n\n");
+			docAtiv(AC_LISTAR);
+			exit(1);
+
+			break;
+
 	}
 
 }
@@ -355,7 +376,7 @@ void execComandoTipo( int argc, char **argv, EAcao acao ) {
 }
 
 
-void execComandoConsulta( int argc, char **argv, EAcao acao ) {
+void execComandoConsulta( int argc, char **argv ) {
 
 	Atividade **ativs;
 	time_t start, end;

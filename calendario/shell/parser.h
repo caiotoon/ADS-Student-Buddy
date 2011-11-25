@@ -91,7 +91,7 @@ void execComandoAjuda( int argc, char **argv, EAcao acao );
 /*
  * Executa um comando de consulta.
  */
-void execComandoConsulta( int argc, char **argv, EAcao acao );
+void execComandoConsulta( int argc, char **argv );
 
 
 

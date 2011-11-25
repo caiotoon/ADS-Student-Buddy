@@ -135,7 +135,7 @@ Disciplina *parseDiscAdicionar( int argc, const char **argv, int **horarios ) {
 
 
 	if( !(fName && fProf && fMail) ) {
-		fprintf(stderr, "As opções -m -p e -n são obrigatórias. Digite \"ads ajuda\" para obter ajuda.\n");
+		fprintf(stderr, "As opções -m -p e -n são obrigatórias. Digite \"calendario -h\" para obter ajuda.\n");
 		docDisc(AC_ADICIONAR);
 		exit(1);
 	}
@@ -207,7 +207,7 @@ Disciplina *parseDiscEditar( int argc, const char **argv, int **horarios ) {
 
 
 	if( !codigo ) {
-		fprintf(stderr, "A opção -c é obrigatória. Digite \"ads ajuda\" para obter ajuda.\n");
+		fprintf(stderr, "A opção -c é obrigatória. Digite \"calendario -h\" para obter ajuda.\n");
 		docDisc( AC_EDITAR );
 		exit(1);
 	}

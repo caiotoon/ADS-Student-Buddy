@@ -18,7 +18,7 @@ void escreverErro( EDocErro erro, char *args[] ) {
 			break;
 
 		case ERR_SEM_ACAO:
-			printf("Ação não informada.\n");
+			printf("Ação não informada. A ação deve ser -l, -a, -e ou -r.\n");
 			break;
 
 		case ERR_EXCESSO_PARAMETROS:
@@ -30,13 +30,13 @@ void escreverErro( EDocErro erro, char *args[] ) {
 			break;
 
 		case ERR_COMANDO_NAO_IDENTIFICADO:
-			puts("Comando inválido. Deve ser utilizado um dos comandos: atividade, disciplina, horario, tipos ou ajuda.\n");
+			puts("Comando inválido. Deve ser utilizado um dos comandos: atividade, disciplina, horario, tipos ou -h.\n");
 			break;
 
 	}
 
 
-	printf("Digite \"ads ajuda\" para obter mais informações sobre o programa.\n");
+	printf("Digite \"calendario -h\" para obter mais informações sobre o programa.\n");
 	exit(EXIT_FAILURE);
 
 }
@@ -48,7 +48,7 @@ void escreverDoc() {
 	printf(
 
 		"\nA sintaxe geral de uso do programa é\n\n"
-		"    ads COMANDO [-ACAO [-OPCAO1 -OPCAO2 ...]]\n\n\n\n"
+		"    calendario COMANDO [-ACAO [-OPCAO1 -OPCAO2 ...]]\n\n\n\n"
 
 
 		"COMANDO: deve ser um dos 4 comandos de entidades (\"atividades\", \"disciplinas\",\n"
@@ -102,16 +102,9 @@ void escreverDoc() {
 		"   Para realizar consulta de atividades, deve-se utilizar um dos possíveis \n"
 		"comandos de consulta:\n\n"
 
-
-		"   ads ontem                   Consulta as atividades do dia anterior.\n"
-		"   ads hoje                    Consulta as atividades do dia atual.\n"
-		"   ads amanha                  Consulta as atividades do dia posterior.\n"
-		"   ads semana                  Consulta as atividades da semana.\n"
-		"   ads mes                     Consulta as atividades do mês.\n"
-		"   ads dd-mm-aaaa              Consulta as atividades da data especificada.\n"
-		"   ads dd-mm-aaaa dd-mm-aaaa   Consulta as atividades no intervalo das datas\n"
-		"                               informadas.\n\n"
 	);
+
+	docAtiv(AC_LISTAR);
 
 
 	printf(
@@ -235,6 +228,21 @@ void docAtiv( EAcao acao ) {
 		case AC_REMOVER:
 			printf(
 					"atividade -r -c codigo_atividade\n\n"
+			);
+			break;
+
+
+
+		case AC_LISTAR:
+			printf(
+				"   calendario ontem                  Consulta atividades do dia anterior.\n"
+				"   calendario hoje                   Consulta atividades do dia atual.\n"
+				"   calendario amanha                 Consulta atividades do dia posterior.\n"
+				"   calendario semana                 Consulta atividades da semana.\n"
+				"   calendario mes                    Consulta atividades do mês.\n"
+				"   calendario dd-mm-aaaa             Consulta atividades da data especificada.\n"
+				"   calendario dd-mm-aaaa dd-mm-aaaa  Consulta atividades no intervalo das datas\n"
+				"                                     informadas.\n\n"
 			);
 			break;
 
