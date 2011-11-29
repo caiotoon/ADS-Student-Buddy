@@ -8,7 +8,6 @@
 #include "parser.h"
 #include "docs.h"
 #include "../lib/utils.h"
-#include "../test/tests.h"
 
 
 /*
