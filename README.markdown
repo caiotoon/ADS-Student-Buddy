@@ -16,4 +16,4 @@ versão atual requer a instalação do [CygWIN](http://cygwin.com).
 
 O software é distribuído sob a licensa MIT. Em suma, você pode copiar,
 alterar, distribuir e utilizar em softwares comerciais. A única exigência
-é que você mantenha uma [cópia da licensa](https://github.com/CaioToOn/ADS-Student-Buddy/MIT-LICENSE) junto com seu software.
+é que você mantenha uma [cópia da licensa](https://github.com/CaioToOn/ADS-Student-Buddy/blob/master/MIT-LICENSE) junto com seu software.
