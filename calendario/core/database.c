@@ -19,13 +19,13 @@
 
 
 
-// Conexão com o banco de dados.
+// Database connection
 static sqlite3 *db;
 static long int connLinks = 0;
 
 
 /*
- * Retorna o caminho para o banco de dados.
+ * Resolves the path to the database
  */
 static char *db_resolvePath(void) {
 	return "./agenda.sqlite";
@@ -33,8 +33,8 @@ static char *db_resolvePath(void) {
 
 
 /*
- * Retorna uma conexão ao banco de dados. Caso o banco de dados não seja encontrado, um
- * novo banco é criado.
+ * Returns a physical connection to the database. If the database is not found,
+ * a new one is created.
  */
 static sqlite3 *db_connect(void) {
 
@@ -61,7 +61,7 @@ static sqlite3 *db_connect(void) {
 
 	rc = sqlite3_open( dbPath, &db );
 
-	// Tenta abrir o banco de dados.
+	// Tries to open the database
 	if( rc ) {
 		printf("Não foi possível abrir o banco: %s.", sqlite3_errmsg(db));
 		exit(EXIT_FAILURE);
@@ -73,15 +73,16 @@ static sqlite3 *db_connect(void) {
 		fprintf(stderr, "WARN: não foi possível registrar o link de fechamento automático da "
 				"conexão com o banco. Certifique-se de que o banco será finalizado.");
 
-	// Retorna o banco de dados.
+	// Returns the connection.
 	return db;
 
 }
 
 
 /*
- * Fecha a conexão com o banco se ninguém mais tiver usando. Sempre que método db_connect for executado,
- * o método db_close precisa ser invocado, caso contrário a conexão nunca se fechará.
+ * Close the database connection if no one more is using it. Every time the method db_connect is executed
+ * the method db_close needs to be invoked in order to properly close the connection, otherwise, a connection
+ * would be left opened, causing memory problems.
  */
 void db_close(void) {
 
@@ -99,7 +100,7 @@ void db_close(void) {
 
 
 /*
- * Fecha todas as conexões com o banco de dados.
+ * Close all connections to the database.
  */
 void db_close_all(void) {
 
@@ -113,7 +114,7 @@ void db_close_all(void) {
 
 
 /*
- * Inicializa o banco de dados em um caminho definido.
+ * Start a database structere in a given path.
  */
 static void db_init( char *path ) {
 
@@ -125,14 +126,14 @@ static void db_init( char *path ) {
 
 	rc = sqlite3_open( path, &db );
 
-	// Tenta abrir o banco de dados.
+	// Tries to open the database.
 	if( rc ) {
 		printf("Não foi possível inicializar o banco de dados: %s.", sqlite3_errmsg(db));
 		exit(EXIT_FAILURE);
 	}
 
 
-	// Cria o banco de dados.
+	// Creates the basic database structure.
 	char CREATE_QUERY[] =
 		"CREATE TABLE `disciplina` ("
 		"  `coddisc` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ,"
@@ -193,7 +194,7 @@ static void db_init( char *path ) {
 
 
 
-	// Popula tabela tipos de atividades
+	// Populate the tasks table
 	char INSERT_ACTIVITIES_TYPES[] =
 		"INSERT INTO tipo_atividade VALUES ('OU', 'Outras Atividades');"
 		"INSERT INTO tipo_atividade VALUES ('PR', 'Prova');"
@@ -212,7 +213,7 @@ static void db_init( char *path ) {
 	}
 
 
-	// Cria os horários.
+	// Create the schedule
 	char INSERT_TIME[1024];
 	char weekDays[][4] = {"seg", "seg", "ter", "ter", "qua", "qua", "qui", "qui", "sex", "sex"};
 	time_t today = time(NULL);
@@ -283,7 +284,7 @@ static void db_init( char *path ) {
 
 
 /*
- * Realiza um query no banco.
+ * Query the database
  */
 int db_query(void *link, sqlite3_callback xCallback, char *sql) {
 
@@ -304,7 +305,7 @@ int db_query(void *link, sqlite3_callback xCallback, char *sql) {
 
 
 /*
- * Retorna o último ID inserido no banco automaticamente.
+ * Returns the last ID inserted
  */
 int db_getLastInsertId( void ) {
 	return sqlite3_last_insert_rowid(db_connect());
@@ -320,7 +321,7 @@ static int db_callback( void *extractor, int argc, char **argv, char **cols ) {
 	DataBuffer *buffer = (DataBuffer *) extractor;
 	void *data;
 
-	// Aloca memória para o objeto da linha.
+	// Allocate memory for the row object.
 	data = malloc(buffer->typeSize);
 
 	if( data == NULL ) {
@@ -329,13 +330,13 @@ static int db_callback( void *extractor, int argc, char **argv, char **cols ) {
 	}
 
 
-	// Executa o extrator de resultado.
+	// Execute the result extractor.
 	buffer->extractor( data, (void**) argv );
 
 
-	// Verifica a inicialização do array e aloca a memória ou redimensiona-a.
-	// A verificação ocorre para não incorrer no erro do usuário não ter inicializado
-	// o ponteiro do ponteiro de elementos com NULL.
+	// Allocate memory if the array does not exists yet or resize it otherwise.
+	// The verification occurs to ensure that the user initialized the elements
+	// pointer's pointer with NULL.
 	if( buffer->length == 0 )
 		buffer->elements = (void **) malloc(sizeof(void *));
 
@@ -352,7 +353,7 @@ static int db_callback( void *extractor, int argc, char **argv, char **cols ) {
 	}
 
 
-	// Adiciona o elemento no array.
+	// Adds an elment to the array
 	buffer->elements[buffer->length] = data;
 	buffer->length++;
 
@@ -362,17 +363,16 @@ static int db_callback( void *extractor, int argc, char **argv, char **cols ) {
 
 
 
-/*
- * Realiza uma query no banco e efetua o parseamento do resultado em um array de diversos
- * items. Os itens são extraídos através da função "extraction". Um ponteiro nulo será retornado
- * caso ocorra algum erro. O array de itens será finalizado com um ponteiro nulo.
+/* 
+ * Query the database and parse the result in an array of multiple items. The items are extracted
+ * by the method "extraction". A NULL pointer must be returned in case fo any error. The items 
+ * array must be ended by a NULL pointer.
  *
- * É indicado o uso da funçao "db_listFree" para desalocar a memória gasta pela lista gerada por
- * esta função.
+ * It's indicated the use of "db_listFree" for memory cleanup after the list has been used.
  *
- * extractor	função utilizada para extrair um conteúdo de uma linha do ResultSet.
- * 				O extrator é suposto a conhecer a estrutura do resultado.
- * sql			SQL que será realizada no banco para trazer os resultados.
+ * extractor	function that will be used to fetch a result from the ResultSet. The extractor is
+ * 				suposed to know the ResultSet internal structure.
+ * sql			SQL that will be realized in the database to bring the results.
  */
 void **db_list( size_t typeSize, int (*extractor)(void *, void **), char *sql ) {
 
@@ -401,9 +401,9 @@ void **db_list( size_t typeSize, int (*extractor)(void *, void **), char *sql ) 
 
 
 /*
- * Libera a memória utilizada por uma lista que tenha sido gerada com a função "db_list".
+ * Cleanup the memory used by a list created with the function "db_list".
  *
- * Retorna 0 se nenhum erro ocorrer.
+ * Returns 0 if no error occurs.
  */
 int db_listFree( void **list ) {
 
@@ -423,9 +423,9 @@ int db_listFree( void **list ) {
 }
 
 
-/*
- * Tenta ler a String em "from", caso seja NULL, então NULL é devolvido, caso seja uma
- * string válida, memória é alocada dinamicamente para ela e a string é copiada.
+/* 
+ * Try reading the String in "from", if it's NULL, then NULL is returned, otherwise,
+ * memory is allocated dynamically to it and the string is copied to this new address.
  */
 void *rs_readStringOrNull( const void *from ) {
 
@@ -447,11 +447,11 @@ void *rs_readStringOrNull( const void *from ) {
 }
 
 
-/*
- * Escreve a string preparada para ser inserida no banco de dados ou a string NULL quando o ponteiro for nulo e retorna
- * um ponteiro para ela.
+/* 
+ * Writes a string prepared to be inserted in the database or a 'NULL' string when the pointer is NULL and return the
+ * pointer to this STRING.
  *
- * A memória alocada deve ser desalocada manualmente.
+ * The allocated memory must be manaualy cleaned up.
  */
 char *rs_prepareStringOrNull( const char *raw ) {
 
