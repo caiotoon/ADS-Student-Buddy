@@ -22,50 +22,48 @@ typedef struct _Disciplina Disciplina;
 
 
 /*
- * Adiciona uma nova disciplina no banco e preenche o ID da disciplina apontada.
- * Retorna 0 se nenhum erro ocorrer ou algum número diferente disso caso ocorra
- * erro.
+ * Adds a new discipline to the database and fill the discipline's ID .
+ * Returns 0 if no error is found or a different number otherwise.
  */
 int discAdicionar( Disciplina *disciplina );
 
 
 /*
- * Atualiza uma entidade no banco de dados. Todas as informações serão alteradas no banco.
- * Retorna 0 se nenhum erro ocorrer e um valor diferente deste no caso contrário.
+ * Update an entity on the database. All attributes will be persisted overwriting the current.
+ * Returns 0 if no error is found or a different number otherwise.
  */
 int discAtualizar( const Disciplina *disciplina );
 
 
 /*
- * Procura no banco a disciplina que possui o ID informado e retorna um ponteiro para a entidade
- * recuperada. Caso uma disciplina não seja encontrada com este ID, um ponteiro nulo será retornado.
+ * Search a discipline in the database that matches the ID and returns a pointer to that entity.
+ * In case a discipline is not found, a null pointer will be returned.
  */
 Disciplina *discPegar( int codigo );
 
 
 /*
- * Retornará um ponteiro para um vetor de disciplinas finalizado por um ponteiro nulo. Um ponteiro
- * nulo será retornado caso ocorra algum erro.
+ * Return a pointer to the disciplines array ended by a null pointer. A null pointer
+ * will be returned in case of error.
  */
 Disciplina **discListar( void );
 
 
 /*
- * Extrai um resultado de um resultset para um objeto apontado por "target".
- * Espera-se que a ordem das colunas seja conhecida por esta função.
+ * Extract a row from a resultset and put it to the memory pointed by "target"
+ * It's expected that this function knows the column order.
  */
 static int discExtrair(void *target, void **columnsData);
 
 
 /*
- * Remove uma disciplina do banco de dados e retorna 0 se nenhum erro ocorrer. Retorna um valor
- * diferente de 0 no caso de erros.
+ * Removes a discipline from the database and return 0 if no error occur, a different number otherwise.
  */
 int discRemover( int codigo );
 
 
 /*
- * Libera toda memória utilizada por uma disciplina.
+ * Free all the memory allocated by a discipline.
  */
 int discRelease( void *target );
 

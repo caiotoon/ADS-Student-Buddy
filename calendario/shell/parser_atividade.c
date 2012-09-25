@@ -15,10 +15,10 @@
 
 
 /**
- * Realiza a interpretação de adição de uma atividade e retorna um ponteiro
- * para a atividade montada.
+ * Parse an activity addition and returns a pointer to the activity strucuture 
+ * created.
  *
- * Um erro deve interromper o programa imediatamente.
+ * An error must exit the program.
  */
 Atividade *parseAtivAdicionar( int argc, const char **argv ) {
 
@@ -113,14 +113,13 @@ Atividade *parseAtivAdicionar( int argc, const char **argv ) {
 
 
 /*
- * Realiza a interpretação de edição de uma atividade e retorna um ponteiro para
- * a atividade.
+ * Parse an activity edition command and returns the pointer to the structure mounted
+ * by this function.
  *
- * Na atividade informada, as informações fornecidas pelo usuário deverão estar
- * preenchidas e as informações não fornecidas devem se mostrar como nulas. Os números
- * serão 0 e qualquer string será um ponteiro nulo.
+ * In the mounted strucutre, the information sent by the user must be filled and the info
+ * no sent must be nulled, where numbers will be 0 and string will become null pointers.
  *
- * Um erro de parser deve parar imediatamente a execução do programa.
+ * A parser error must exit the program.
  */
 Atividade *parseAtivEditar( int argc, const char **argv ) {
 
@@ -228,9 +227,9 @@ Atividade *parseAtivEditar( int argc, const char **argv ) {
 
 
 /*
- * Retorna o código da atividade que deve ser removida do banco de dados.
+ * Returns the code to the activity that should be removed from the database.
  *
- * Um erro de parser deve interromper a execução do programa imediatamente.
+ * A parser error must stop the program.
  */
 int parseAtivRemover( int argc, char **argv ) {
 

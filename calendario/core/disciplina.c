@@ -14,7 +14,7 @@
 
 
 
-// Declara a estrutura que irá conter a lista de disciplinas lá carregadas.
+// The structure that will hold the already loaded disciplines.
 
 struct {
 
@@ -25,8 +25,8 @@ struct {
 
 
 /*
- * Busca uma disciplina no array. Os algoritimos de ordenação e pesquisa precisam
- * ser melhorados no futuro.
+ * Search for a discipline in the array. The algorithms of ordering and search
+ * must be refactored in future.
  */
 static Disciplina *searchDisciplina( int codigo ) {
 

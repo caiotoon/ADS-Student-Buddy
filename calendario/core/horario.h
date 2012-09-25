@@ -11,8 +11,8 @@
 #include <time.h>
 
 /*
- * Toda função que retornar um horário deve associar a disciplina ao horário ou colocar um
- * ponteiro nulo como [disciplina] para indicar que não há disciplina associada a este horário.
+ * Every function that returns a schedule must associate the discipline to the schedule or put
+ * a null pointer as [disciplina] to indicate that no discipline is associated to that schedule.
  */
 
 struct _Horario {
@@ -30,49 +30,51 @@ typedef struct _Horario Horario;
 
 
 /*
- * Retornará um ponteiro para um vetor de horários finalizado por um ponteiro nulo. Um ponteiro nulo será retornado
- * caso ocorra algum erro.
+ * Returns a pointer to a vector of schedules ended by a null pointer. A null pointer will be returned in case any
+ * error occur.
  */
 Horario **horaListar(void);
 
 
 /*
- * Extrai um resultado de um resultset para um objeto apontado por "target".
- * Espera-se que a ordem das colunas seja conhecida por esta função.
+ * Extracts a row from the resultset to the memory pointed by "target".
+ * It's expected that this function know the resultset columns.
  */
 static int horaExtrair(void *target, void **columnsData);
 
 
 /*
- * Associa uma disciplina à um determinado horário e retorna 0 se nenhum erro ocorrer.
+ * Bind a discipline to a specific schedule and returns 0 if no error occurs.
  *
- * Caso seja informado 0 como código da disciplina a associação atual do horário será
- * desfeita. Não existe verificação antes de alterar o conteúdo.
+ * In case of [codDisciplina] is 0, any discipline binded to that schedule will be 
+ * unbind.
  */
 int horaAssociarDisciplina( int codHorario, int codDisciplina );
 
 
 
 /*
- * Desassocia uma disciplina de todos os horários.
+ * Unbind a discipline from any schedule it may be bound.
  */
 int horaDesassociarDisciplina( int codDisciplina );
 
 
 /*
- * Retorna um horário baseado no dia da semana e na posicao do horário. [diaSemana] será um array de caracteres que
- * conterá as três primeiras letras do dia semana, e [horario] será 1 ou 2, significando, respectivamente, o primeiro
- * ou o segundo horário. A consulta deve ser feita baseando-se nos horários de início e término da aula.
+ * Returns an schedule based on the week day and the schedule position. [diaSemana] will be an array of chars that
+ * will contain the three first letters of the week day (Brazillian (from monday): seg, ter, qua, qui, sex), and [horario]
+ * must be 1 or 2, indicating, respectively, the first or second schedule time. The query must be done according to the 
+ * start and end time of the class.
  *
- * Um ponteiro nulo será retornado caso não seja possível encontrar este horário.
+ * A null pointer will be returned if its not possible to find the schedule specified.
  */
 Horario *horaPegar( const char diaSemana[4], int horario );
 
 
 /*
- * Escreve a hora no formato HH:MM. Se um "destino" for apontado, o resultado será
- * escrito neste ponteiro. Caso contrário, a memória será alocada dinamicamente e
- * deve ser liberada pelo código que realizar a chamada.
+ * Writes the time in the format HH:MM. If a [destino] is pointed, the result will be
+ * written direct to this pointer. If not, the memory will be allocated and a pointer to
+ * it will be returned. In the second option, the responsability of deallocating the memory
+ * is from the caller of this method.
  */
 char *horaEscreverHora( const time_t horaUnix, char *destino );
 

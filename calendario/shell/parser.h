@@ -9,7 +9,7 @@
 
 
 /*
- * Enumeração de comandos existentes.
+ * A enumeration of the existing commands.
  */
 enum _Comando {
 	COM_DISCIPLINA,
@@ -24,7 +24,7 @@ typedef enum _Comando EComando;
 
 
 /*
- * Enumeração de ações existentes no programa.
+ * Enumeration of existing actions.
  */
 enum _Acao {
 	AC_ADICIONAR,
@@ -38,71 +38,71 @@ typedef enum _Acao EAcao;
 
 
 /*
- * Inicia a interpretação do comando.
+ * Starts the command parsing.
  */
 void parse(int argc, char **argv);
 
 
 /**
- * Lê o comando e retorna o comando adequado.
+ * Reads the command and return the matching command.
  */
 EComando lerComando( char *name );
 
 
 /*
- * Valida a ação de um comando e retorna a ação identificada. Caso seja solicitada uma ação não permitida, ou
- * caso mais de uma ação seja pedida, o programa deve ser finalizado com mensagem de erro.
+ * Validate the action of a command and return an identified action. In case of invalid action,
+ * or more than one action is asked, the software must stop and inform the error.
  *
- * A lista de açoes permitidas será finalizada com o número -1.
+ * The list of allowing actions must be ended by -1.
  */
 EAcao parseAcao( int argc, char **argv, const EAcao acoesPermitidas[] );
 
 
 /*
- * Executa um comando de atividade.
+ * Parse and execute a activity command.
  */
 void execComandoAtiv( int argc, char **argv, EAcao acao );
 
 
 /*
- * Executa um comando de horário.
+ * parse and execute a schedule command.
  */
 void execComandoHora( int argc, char **argv, EAcao acao );
 
 
 /*
- * Executa um comando de tipo de atividade.
+ * Parse and execute a activity type command.
  */
 void execComandoTipo( int argc, char **argv, EAcao acao );
 
 
 /*
- * Executa um comando de disciplina.
+ * Parse and execute a discipline command.
  */
 void execComandoDisc( int argc, char **argv, EAcao acao );
 
 
 /*
- * Executa o comando de ajuda.
+ * Parse and execute a help command.
  */
 void execComandoAjuda( int argc, char **argv, EAcao acao );
 
 
 /*
- * Executa um comando de consulta.
+ * Parse and execute a query command.
  */
 void execComandoConsulta( int argc, char **argv );
 
 
 
 /*
- * Retorna uma opção ou nulo.S
+ * Returns the option or null.
  */
 int opt_get( int argc, const char **argv, const char *mandatoryOpts, const char *validOpts, char **argplacer );
 
 
 /*
- * Reseta o parser de opções.
+ * Reset option parser.
  */
 void opt_reset( void );
 

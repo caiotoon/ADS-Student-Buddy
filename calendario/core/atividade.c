@@ -16,8 +16,8 @@
 
 
 /*
- * Adiciona uma nova atividade no banco e preenche o ID da atividade apontada.
- * Retorna 0 se nenhum erro ocorrer e algum número diferente disso em caso de erros.
+ * Adds a new activity to the database and fill the ID of the activity pointed by [atividade].
+ * Returns 0 if no error occur, and a different number otherwise.
  */
 int ativAdicionar( Atividade *atividade ) {
 
@@ -50,8 +50,8 @@ int ativAdicionar( Atividade *atividade ) {
 
 
 /*
- * Atualiza uma entidade no banco de dados. Todas as informações serão alteradas no banco.
- * Retorna 0 se nenhum erro ocorrer e um valor diferente deste no caso contrário.
+ * Update a entity in the database. All properties will be persisted.
+ * Returns 0 if no error occur, and a different number otherwise.
  */
 int ativAtualizar( const Atividade *atividade ) {
 
@@ -94,8 +94,8 @@ int ativAtualizar( const Atividade *atividade ) {
 
 
 /*
- * Procura no banco a atividade que possui o ID informado e retorna um ponteiro para a entidade
- * recuperada. Caso uma atividade não seja encontrada com este ID, um ponteiro nulo será retornado.
+ * Search the database for an activity that matches the ID informed and return a pointer to the found one.
+ * If no activity has been found, a null pointer will be returned.
  */
 Atividade *ativPegar( int codAtividade ) {
 
@@ -123,10 +123,10 @@ Atividade *ativPegar( int codAtividade ) {
 
 
 /*
- * Consulta todas as atividades compreendidas em ume escopo de datas.
+ * Query all activities in a date interval.
  *
- * Retornará um ponteiro para um vetor de atividades finalizado por um ponteiro nulo. Um ponteiro
- * nulo será retornado caso ocorra algum erro.
+ * Returns the pointer to a vector with all activities ended by a null pointer. A null pointer will
+ * be returned in case of errors.
  */
 Atividade **ativListar( const time_t *dataInicial, const time_t *dataFinal ) {
 
@@ -150,8 +150,8 @@ Atividade **ativListar( const time_t *dataInicial, const time_t *dataFinal ) {
 
 
 /*
- * Extrai um resultado de um resultset para um objeto apontado por "target".
- * Espera-se que a ordem das colunas seja conhecida por esta função.
+ * Extract a row from the resultset to the memory pointed by [target].
+ * It's expected that this function knows the resultset columns.
  */
 static int ativExtrair(void *target, void **columnsData) {
 
@@ -172,8 +172,8 @@ static int ativExtrair(void *target, void **columnsData) {
 
 
 /*
- * Remove uma atividade do banco de dados e retorna 0 se nenhum erro ocorrer. Retorna um valor
- * diferente de 0 no caso de erros.
+ * Removes an activity from the database and returns 0 if no error occurs, a different number will
+ * be returned otherwise.
  */
 int ativRemover( int codAtividade ) {
 

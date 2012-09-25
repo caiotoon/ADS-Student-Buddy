@@ -29,7 +29,7 @@ typedef struct _GenericArray GenericArray;
 
 
 /*
- * Converte uma string para letras minúsculas.
+ * Converts a string to lowercase.
  */
 void strToLower( char *str );
 

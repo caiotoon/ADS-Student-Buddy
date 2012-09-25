@@ -17,19 +17,19 @@
 #include <time.h>
 
 /*
- * Retorna o número de dias de diferença entre as duas datas. Indica que a data inicial é menor que a final.
+ * Returns the difference between two dates in days.
  */
 int diffdays( const time_t *startDate, const time_t *endDate);
 
 
 /*
- * Calcula a diferença de meses entre duas datas. Um valor negativo indica que a data inicial é menor que a final.
+ * Calculates the difference bewteen two days in months.
  */
 int diffmonths( const time_t *startDate, const time_t *endDate );
 
 
 /*
- * Copia uma estrutura de data para outra.
+ * Copy one time structure into another.
  */
 void tmcpy( struct tm *dest, const struct tm* src );
 

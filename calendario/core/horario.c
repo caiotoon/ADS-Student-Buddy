@@ -42,14 +42,14 @@ int horaAssociarDisciplina( int codHorario, int codDisciplina ) {
 	char query[150];
 
 
-	// Verifica se um horário foi informado.
+	// Check if a schedule has been passed
 	if( codHorario == 0 ) {
 		fprintf(stderr, "Horário não informado.");
 		return 1;
 	}
 
 
-	// Verifica se uma disciplina foi informada.
+	// Check if a discipline has been passed
 	if( codDisciplina == 0 )
 		sprintf(query, "UPDATE horario SET coddisc = NULL where codhorario = %d;", codHorario);
 
@@ -57,7 +57,7 @@ int horaAssociarDisciplina( int codHorario, int codDisciplina ) {
 		sprintf(query, "UPDATE horario SET coddisc = %d where codhorario = %d;", codDisciplina, codHorario);
 
 
-	// Executa a query e verifica o retorno.
+	// Execute the query and check the result
 	if( db_query(NULL, NULL, query) == SQLITE_OK )
 		return 1;
 
@@ -71,10 +71,10 @@ int horaDesassociarDisciplina( int codDisciplina ) {
 
 	char query[150];
 
-	// Verifica se uma disciplina foi informada.
+	// Check if a discipline has been passed
 	sprintf(query, "UPDATE horario SET coddisc = NULL where coddisc = %d;", codDisciplina);
 
-	// Executa a query e verifica o retorno.
+	// Execute the query and check the result
 	if( db_query(NULL, NULL, query) == SQLITE_OK )
 		return 1;
 
