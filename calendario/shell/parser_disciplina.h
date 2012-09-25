@@ -10,47 +10,42 @@
 #include "../core/disciplina.h"
 
 /**
- * Realiza a interpretação de adição de uma disciplina e retorna um ponteiro
- * para a disciplina montada.
+ * Parse the addition of a discipline and returns a pointer to a discipline structure.
  *
- * Um erro deve interromper o programa imediatamente.
+ * In case of error the system must exit.
  *
- * param argc		Número de argumentos no vetor argv
- * param argv		Argumentos passados para o programa argv
- * param horarios	Um ponteiro que apontará para um vetor de horários que foram
- * 					informados pelo usuário. Este ponteiro será apontado para um
- * 					vetor no caso do usuário ter informado ou será apontado para
- * 					NULL caso o usuário não tenha informado a opção 'h'.
+ * param argc		
+ * param argv		
+ * param horarios	A pointer that will point to a schedule array that has been 
+ * 					informed by the user. If the user has not informed any schedule, 
+ * 					then a null pointer is returned.
  */
 Disciplina *parseDiscAdicionar( int argc, const char **argv, int **horarios );
 
 
 
 /**
- * Realiza a interpretação de edição de uma disciplina e retorna um ponteiro para
- * a disciplina.
+ * Parse the edition of a discipline and returns a pointer to the structure that holds the
+ * discipline informed by the user.
  *
- * Na disciplina informada, as informações fornecidas pelo usuário deverão estar
- * preenchidas e as informações não fornecidas devem se mostrar como nulas. Os números
- * serão 0 e qualquer string será um ponteiro nulo.
+ * All info passed by the user should be present on the returned structure, and the missing
+ * must be a null pointer when a string or a 0 when a number.
  *
- * Um erro de parser deve parar imediatamente a execução do programa.
+ * In case of error the system must exit.
  *
- * param argc		Número de argumentos no vetor argv
- * param argv		Argumentos passados para o programa argv
- * param horarios	Um ponteiro que apontará para um vetor de horários que foram
- * 					informados pelo usuário. Este ponteiro será apontado para um
- * 					vetor no caso do usuário ter informado ou será apontado para
- * 					NULL caso o usuário não tenha informado a opção 'h'.
+ * param argc		
+ * param argv		
+ * param horarios	A pointer that will point to a schedule array that has been 
+ * 					informed by the user. If the user has not informed any schedule, 
+ * 					then a null pointer is returned.
  */
 Disciplina *parseDiscEditar( int argc, const char **argv, int **horarios );
 
 
 
 /*
- * Retorna o código da disciplina que deve ser removida do banco de dados.
- *
- * Um erro de parser deve interromper a execução do programa imediatamente.
+ * Returns the code of the discipline that should be removed from the database.
+ * In case of error the system must exit.
  */
 int parseDiscRemover( int argc, char **argv );
 

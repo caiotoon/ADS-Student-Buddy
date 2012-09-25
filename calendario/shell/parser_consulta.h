@@ -8,7 +8,7 @@
 #include <time.h>
 
 /*
- * Interpreta o comando e consulta e escreve as datas iniciais e finais nos ponteiros informados como parâmetros.
+ * Parse a schedule query and write the start and end date to the pointers informed.
  */
 void parseCons( int argc, char **argv, time_t *dataInicial, time_t *dataFinal );
 

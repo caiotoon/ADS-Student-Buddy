@@ -22,9 +22,9 @@
 
 
 /*
- * Escreve a lista de tipos disponíveis.
+ * Write the type of activities informed.
  *
- * param tipos	ponteiro para um vetor com os itens, finalizado com um ponteiro nulo.
+ * param tipos	pointer to the types that should be listed.
  */
 void outListarTiposAtividades( const TipoAtividade **tipos ) {
 
@@ -40,9 +40,9 @@ void outListarTiposAtividades( const TipoAtividade **tipos ) {
 
 
 /*
- * Escreve a lista de disciplinas disponíveis.
+ * Write the discipline informed.
  *
- * param disciplinas	ponteiro para um vetor com os itens, finalizado com um ponteiro nulo.
+ * param disciplinas	a pointer the disciplines that should be listed.
  */
 void outListarDisciplinas( const Disciplina **disciplinas ) {
 
@@ -68,9 +68,9 @@ void outListarDisciplinas( const Disciplina **disciplinas ) {
 
 
 /*
- * Escreve a lista de horários disponíveis.
+ * Write the schedules informed.
  *
- * param horarios	ponteiro para um vetor com os itens, finalizado com um ponteiro nulo.
+ * param horarios	pointer to the schedules that should be listed.
  */
 void outListarHorarios( const Horario **horarios ) {
 
@@ -118,9 +118,9 @@ void outListarHorarios( const Horario **horarios ) {
 
 
 /*
- * Escreve a lista de atividades disponíveis.
+ * Write a list with all available activities.
  *
- * param atividades	ponteiro para um vetor com os itens, finalizado com um ponteiro nulo.
+ * param atividades	pointer to the activities that should be listed.
  */
 void outListarAtividades( const time_t *dataInicial, const time_t *dataFinal, const Atividade **atividades ) {
 
@@ -165,7 +165,7 @@ void outListarAtividades( const time_t *dataInicial, const time_t *dataFinal, co
 
 
 /*
- * Escreve o cabeçalho do dia, com informação de data e cabeçalho.
+ * Writes the header of the day.
  */
 static void outEscreverCabecalhoDia( const time_t *dia ) {
 
@@ -184,7 +184,7 @@ static void outEscreverCabecalhoDia( const time_t *dia ) {
 
 
 /*
- * Escreve uma atividade completa.
+ * Writes a complete activity.
  */
 static void outEscreverAtividade(const Atividade *atividade) {
 
@@ -196,18 +196,18 @@ static void outEscreverAtividade(const Atividade *atividade) {
 
 
 /*
- * Calcula a diferença entre uma data e a data atual do sistema e escreve uma string representando
- * esta diferença no argumento "target". A string será em dias, em semanas ou em meses. Exs.:
+ * Calculates the difference between a specific date and the system date and writes a string representing the relative time between them.
+ * The string will be written to the [target] pointer, and the possible values are:
  *
- * hoje
- * ontem
- * há 5 dias
- * há 1 semana
- * há 2 semanas
- * daqui a 4 dias
- * daqui a 1 semana
- * daqui a mais de 6 meses
- * há mais de 6 meses
+ * hoje (today)
+ * ontem (yesterday)
+ * há 5 dias (5 days ago)
+ * há 1 semana (1 week ago)
+ * há 2 semanas (2 weeks ago)
+ * daqui a 4 dias (in 4 days)
+ * daqui a 1 semana (in 1 week)
+ * daqui a mais de 6 meses (6+ months ahead)
+ * há mais de 6 meses (6+ months ago)
  */
 static void getDataRef( const time_t *date, char *target ) {
 
@@ -231,7 +231,7 @@ static void getDataRef( const time_t *date, char *target ) {
 	current->tm_hour = 5;
 
 
-	// Encontra a unidade de medida.
+	// Find the correct scale.
 	if( absDiff == 0 ) {
 		strcpy(target, "hoje");
 		return;

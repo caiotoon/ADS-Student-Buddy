@@ -23,17 +23,16 @@ typedef enum DocErro EDocErro;
 
 
 /**
- * Escreve a ajuda na tela.
+ * Writes the help on console.
  */
 void escreverDoc();
 
 
 
 /**
- * Escreve um erro na tela.
+ * Writes a generic error on console.
  *
- * Apenas determinados tipos de erros irão recorrer ao ponteiro de argumentos adicionais. E estes já saberão o que há no
- * endereço informado.
+ * [args] are options that might be needed for a specific kind of error.
  */
 void escreverErro( EDocErro erro, char *args[] );
 

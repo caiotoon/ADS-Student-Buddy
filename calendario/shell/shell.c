@@ -11,10 +11,10 @@
 
 
 /*
- * Ponto de entrada do programa.
+ * System start point.
  *
- * Este método tem a responsabilidade de identificar o comando e a ação da linha de código. Após a identificação,
- * ele deve passar os argumentos para a função adequada, a fim de finalizar o pedido.
+ * This method identify the command and action from the user input. After the identification, it
+ * will pass the arguments to the correct function, so it could finish the processing.
  */
 int main(int argc, char **argv) {
 

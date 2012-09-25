@@ -59,7 +59,7 @@ static EAcao findAction(int argc, char **argv);
 
 
 /*
- * Identifica o comando baseado na lista de comandos existentes no vetor acima.
+ * Identify the command on the above list.
  */
 EComando lerComando(char *comando) {
 
@@ -163,7 +163,7 @@ void parse(int argc, char **argv) {
 	if( argc < 2 )
 		escreverErro( ERR_SEM_COMANDO, NULL );
 
-	// Identifica o comando.
+	// Identify the command.
 	com = lerComando(argv[1]);
 
 	if( com != COM_CONSULTA && com != COM_AJUDA && argc < 3 )

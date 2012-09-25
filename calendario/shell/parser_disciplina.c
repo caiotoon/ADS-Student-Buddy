@@ -20,7 +20,7 @@
 
 
 /*
- * Retorna 0 se nenhum erro ocorrer.
+ * Returns 0 if no error happens.
  */
 int *lerHorario(const char *horarios) {
 

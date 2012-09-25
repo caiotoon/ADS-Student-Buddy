@@ -7,7 +7,7 @@
 
 
 /**
- * Inicialização do sistema.
+ * System start point.
  */
 int main( int argc, char **argv);
 
